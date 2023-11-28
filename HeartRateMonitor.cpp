@@ -2,8 +2,8 @@
 
 // an object that displays the heart rate on the screen.
 
-HeartRateMonitor::HeartRateMonitor(QWidget *parent, int startHeartRate)
-    : QGraphicsScene(parent)
+HeartRateMonitor::HeartRateMonitor(QWidget *parent, int startHeartRate, int width, int height)
+    : QGraphicsScene(parent), vWidth(width - 10), vHeight(height - 10)
 {
     heartRateTimer = new QTimer(this);
     connect(heartRateTimer, &QTimer::timeout, this, &HeartRateMonitor::heartBeat);
@@ -21,23 +21,25 @@ void HeartRateMonitor::updatePosition()
 {
     for(QGraphicsItem* items : this->items())
     {
-        items->setX(items->x() - 6);
-        if(items->x() < -140)
-        {
-            QGraphicsEllipseItem* t = (QGraphicsEllipseItem*)items;
-            t->setBrush(Qt::green);
-        }
-
-        if(items->x() < -160)
+        items->setX(items->x() - 3);
+        if(items->x() < -vWidth)
         {
             this->removeItem(items);
         }
     }
 
-    QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(2, 2, 10, 10); // Adjust the rectangle as needed
-    QColor color((8*tempCounter++ % 254), 111, 111);
-    pointItem->setBrush(color); // Set the color of the point
-    pointItem->setPos(2, 2);
+
+    QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 8, 8); // Adjust the rectangle as needed
+
+    tempCounter += 4;
+    pointItem->setBrush(QColor((tempCounter % 255), 111, 111)); // Set the color of the point
+    pointItem->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
+    pointItem->setPos(0, -tempCounter);
+
+
+    qDebug() << " Bounding rect: "<< this->itemsBoundingRect();
+    if(tempCounter > 251)
+        tempCounter = 0;
 
     this->addItem(pointItem);
 }

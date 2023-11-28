@@ -3,6 +3,6 @@
 
 
 #define START_HEART_RATE        60
-#define PING_RATE_MS            100
+#define PING_RATE_MS            10
 
 #endif // DEFS_H
