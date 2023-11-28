@@ -1,13 +1,14 @@
 #ifndef AEDCONTROLLER_H
 #define AEDCONTROLLER_H
-#include <QObject>
 #include "./ui_mainwindow.h"
 
+#include "HeartRateMonitor.h"
+
+#include <QObject>
 
 class AEDController : public QObject
 {
     Q_OBJECT
-
 
 public:
     enum AEDState
@@ -18,7 +19,7 @@ public:
         Analyzing,
         ShockAdvised,
         Shock,
-        PostShockCare,
+        PostShockCare, // could be a transition
         ContinuedEvaluation // this can be the default if nothing is wrong
     }; // we can add more/remove some as we need
 
@@ -36,6 +37,8 @@ public slots:
 
 private:
     const Ui::MainWindow& ui;
+
+    HeartRateMonitor* hMonitor;
 };
 
 #endif
