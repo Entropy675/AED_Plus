@@ -25,10 +25,14 @@ private slots:
     void heartBeat();
 
 private:
-    // we can use the function sin(2*x*pi) + 0.4 for range 0 to 0.935 to simulate a bump
-    int tempCounter = 0;
-    int vWidth, vHeight; // views with and height
+    int loading = 255;
+    int vWidth, vHeight; // views width and height
 
+    // we can use the function sin(2*x*pi) + 0.4 for range 0 to 0.935 to simulate a bump
+    // maybe sin(10*pi*x + 5.75) + 0.5 ois better... looks closer to heartbeat between 0 and 0.2
+    double heartBeatFunc(double x);
+
+    double heartBeatOccurring = 0;
     QTimer* updateTimer;
     QTimer* heartRateTimer;
 };

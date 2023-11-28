@@ -1,4 +1,5 @@
 #include "HeartRateMonitor.h"
+#include <cmath>
 
 // an object that displays the heart rate on the screen.
 
@@ -21,7 +22,7 @@ void HeartRateMonitor::updatePosition()
 {
     for(QGraphicsItem* items : this->items())
     {
-        items->setX(items->x() - 3);
+        items->setX(items->x() - 1);
         if(items->x() < -vWidth)
         {
             this->removeItem(items);
@@ -29,25 +30,55 @@ void HeartRateMonitor::updatePosition()
     }
 
 
-    QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 8, 8); // Adjust the rectangle as needed
+    QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 3, 8); // Adjust the rectangle as needed
+    if(loading > 30)
+        loading -= 4;
 
-    tempCounter += 4;
-    pointItem->setBrush(QColor((tempCounter % 255), 111, 111)); // Set the color of the point
+    if(heartBeatOccurring)
+    {
+        qDebug() << -50*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
+        pointItem->setPos(0, -50*heartBeatFunc(-heartBeatOccurring));
+        heartBeatOccurring -= 0.022;
+        if(heartBeatOccurring < 0)
+            heartBeatOccurring = 0;
+    }
+
+    pointItem->setBrush(QColor(loading, 111, 111)); // Set the color of the point
     pointItem->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
-    pointItem->setPos(0, -tempCounter);
 
+    this->addItem(pointItem);
+
+
+    /* some messing around code
+    pointItem->setBrush(QColor((tempCounter % 255), 111, 111)); // Set the color of the point
+    tempCounter += 4;
+    if(tempCounter > 100)
+        pointItem->setPos(0, tempCounter);
+    else
+        pointItem->setPos(0, 100);
 
     qDebug() << " Bounding rect: "<< this->itemsBoundingRect();
     if(tempCounter > 251)
         tempCounter = 0;
+    */
 
-    this->addItem(pointItem);
+}
+
+// we can use the function sin(2*x*pi) + 0.4 for range 0 to 0.935 to simulate a bump
+// sin(10*pi*x + 5.75) + 0.5 is better...
+// takes in a value from 0 to 1
+// outputs values between 1.5 and -0.5
+double HeartRateMonitor::heartBeatFunc(double x)
+{
+    x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
 }
 
 // runs every beat
 void HeartRateMonitor::heartBeat()
 {
-
+    heartBeatOccurring = 1;
+    loading = 255;
 }
 
 void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
