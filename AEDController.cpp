@@ -3,7 +3,7 @@
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
 {
-
+    u.HeartRateView->setScene(hMonitor);
 }
 
 

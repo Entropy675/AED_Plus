@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Elevator Simulation");
+    this->setWindowTitle("AED Plus");
     aed = new AEDController(*ui);
 
     connect(this, &MainWindow::screenResized, aed, &AEDController::handleScreenResized);
@@ -22,6 +22,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
-    QMainWindow::resizeEvent(event); // base class implementation
+    QMainWindow::resizeEvent(event); // base implementation
     emit screenResized(event->size().width(), event->size().height()); // Emit to ec with new screen dimensions
 }
