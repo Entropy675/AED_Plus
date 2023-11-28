@@ -34,9 +34,11 @@ public slots:
 
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);
+    void update();
 
 private:
     const Ui::MainWindow& ui;
+    AEDState state;
 
     HeartRateMonitor* hMonitor;
 };
