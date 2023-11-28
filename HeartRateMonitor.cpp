@@ -32,13 +32,13 @@ void HeartRateMonitor::updatePosition()
 
     QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 3, 8); // Adjust the rectangle as needed
     if(loading > 30)
-        loading -= 8;
+        loading -= 4;
 
     if(heartBeatOccurring)
     {
         qDebug() << -50*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
         pointItem->setPos(0, -50*heartBeatFunc(-heartBeatOccurring));
-        heartBeatOccurring -= 0.02;
+        heartBeatOccurring -= 0.022;
         if(heartBeatOccurring < 0)
             heartBeatOccurring = 0;
     }
