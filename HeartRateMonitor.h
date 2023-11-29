@@ -16,7 +16,7 @@ class HeartRateMonitor : public QGraphicsScene
 {
 
 public:
-    HeartRateMonitor(QWidget *parent = nullptr, int heartRateSec = START_HEART_RATE, int width = 200, int height = 200);
+    HeartRateMonitor(QWidget *parent = nullptr, double heartRateSec = START_HEART_RATE, int width = 200, int height = 200);
 
     void updateHeartRate(int newHeartRateBPM);
 
@@ -25,7 +25,7 @@ private slots:
     void heartBeat();
 
 private:
-    int loading = 255;
+    int redColorShift = 255;
     int vWidth, vHeight; // views width and height
 
     // we can use the function sin(2*x*pi) + 0.4 for range 0 to 0.935 to simulate a bump
