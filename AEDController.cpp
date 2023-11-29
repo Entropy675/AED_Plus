@@ -1,10 +1,17 @@
 #include "AEDController.h"
+#include <QVBoxLayout>
 
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
 {
     hMonitor = new HeartRateMonitor(nullptr, START_HEART_RATE, u.HeartRateView->width(), u.HeartRateView->height());
     u.HeartRateView->setScene(hMonitor);
+
+    outputText = new OutputTextbox(ui.outputTextGroupBox);
+
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->addWidget(outputText);
+    ui.outputTextGroupBox->setLayout(layout);
 }
 
 

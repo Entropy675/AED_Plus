@@ -1,6 +1,7 @@
 #include "outputtextbox.h"
 
-OutputTextbox::OutputTextbox()
+OutputTextbox::OutputTextbox(QWidget* parent)
+    : QTextBrowser(parent)
 {
 
 }

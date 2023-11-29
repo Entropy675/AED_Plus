@@ -3,6 +3,7 @@
 #include "./ui_mainwindow.h"
 
 #include "HeartRateMonitor.h"
+#include "OutputTextbox.h"
 
 #include <QObject>
 
@@ -40,6 +41,7 @@ private:
     const Ui::MainWindow& ui;
     AEDState state;
 
+    OutputTextbox* outputText;
     HeartRateMonitor* hMonitor;
 };
 

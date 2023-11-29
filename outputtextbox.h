@@ -1,13 +1,16 @@
 #ifndef OUTPUTTEXTBOX_H
 #define OUTPUTTEXTBOX_H
 #include <QObject>
+#include <QTextBrowser>
 
-class OutputTextbox : public QObject
+class OutputTextbox : public QTextBrowser
 {
     Q_OBJECT
 
 public:
-    OutputTextbox();
+    OutputTextbox(QWidget* parent = nullptr);
+
+
 
 };
 
