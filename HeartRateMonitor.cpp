@@ -8,12 +8,12 @@ HeartRateMonitor::HeartRateMonitor(QWidget *parent, double startHeartRate, int w
 {
     heartRateTimer = new QTimer(this);
     connect(heartRateTimer, &QTimer::timeout, this, &HeartRateMonitor::heartBeat);
-    heartRateTimer->start(1000/(startHeartRate/60.0)); // 60 seconds in a minute
+    heartRateTimer->start(1000/(startHeartRate/60.0));
     // qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &HeartRateMonitor::updatePosition);
-    updateTimer->start(PING_RATE_MS); // 60 seconds in a minute
+    updateTimer->start(PING_RATE_MS);
 }
 
 HeartRateMonitor::~HeartRateMonitor()
@@ -64,6 +64,7 @@ void HeartRateMonitor::updatePosition()
 double HeartRateMonitor::heartBeatFunc(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
     return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
 }
 
@@ -77,5 +78,5 @@ void HeartRateMonitor::heartBeat()
 void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
 {
     heartRateTimer->stop();
-    heartRateTimer->start(1000/(newHeartRateBPM/60.0)); // 60 seconds in a minute
+    heartRateTimer->start(1000/(newHeartRateBPM/60.0)); // 60 seconds in a minute, 1000ms ;)
 }
