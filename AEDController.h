@@ -25,6 +25,7 @@ public:
     }; // we can add more/remove some as we need
 
     AEDController(Ui::MainWindow& ui);
+    ~AEDController();
 
 signals:
     // add signals this sends across all threads here

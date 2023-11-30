@@ -5,3 +5,8 @@ OutputTextbox::OutputTextbox(QWidget* parent)
 {
 
 }
+
+OutputTextbox::~OutputTextbox()
+{
+
+}

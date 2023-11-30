@@ -9,12 +9,24 @@ HeartRateMonitor::HeartRateMonitor(QWidget *parent, double startHeartRate, int w
     heartRateTimer = new QTimer(this);
     connect(heartRateTimer, &QTimer::timeout, this, &HeartRateMonitor::heartBeat);
     heartRateTimer->start(1000/(startHeartRate/60.0)); // 60 seconds in a minute
-    qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
+    // qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &HeartRateMonitor::updatePosition);
     updateTimer->start(PING_RATE_MS); // 60 seconds in a minute
 }
+
+HeartRateMonitor::~HeartRateMonitor()
+{
+    heartRateTimer->stop();
+    delete heartRateTimer;
+    heartRateTimer = nullptr;
+
+    updateTimer->stop();
+    delete updateTimer;
+    updateTimer = nullptr;
+}
+
 
 // runs at PING_RATE_MS
 void HeartRateMonitor::updatePosition()

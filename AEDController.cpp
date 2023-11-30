@@ -14,6 +14,11 @@ AEDController::AEDController(Ui::MainWindow& u)
     ui.outputTextGroupBox->setLayout(layout);
 }
 
+AEDController::~AEDController()
+{
+    delete hMonitor;
+    delete outputText;
+}
 
 void AEDController::handleScreenResized(int w, int h)
 {

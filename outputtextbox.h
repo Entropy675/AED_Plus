@@ -9,8 +9,11 @@ class OutputTextbox : public QTextBrowser
 
 public:
     OutputTextbox(QWidget* parent = nullptr);
+    ~OutputTextbox();
+    // use QString, compatibility with Qt
 
-
+    void displayText(QString s); // erases
+    void addMessage(QString s);  // appends
 
 };
 
