@@ -28,8 +28,7 @@ public:
     ~AEDController();
 
 signals:
-    // add signals this sends across all threads here
-    // (Likely condition variable encapsulation - its just semaphores...)
+    // add signals here
 
 public slots:
     // add slots that recieve signals here
@@ -37,6 +36,8 @@ public slots:
 
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);
+
+private slots:
     void update();
 
 private:
@@ -45,6 +46,8 @@ private:
 
     OutputTextbox* outputText;
     HeartRateMonitor* hMonitor;
+
+    QTimer* updateTimer;
 };
 
 #endif
