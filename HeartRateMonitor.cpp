@@ -64,6 +64,7 @@ void HeartRateMonitor::updatePosition()
 double HeartRateMonitor::heartBeatFunc(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
     return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
 }
 

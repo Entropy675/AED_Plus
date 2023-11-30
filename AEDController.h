@@ -33,6 +33,7 @@ signals:
 
 public slots:
     // add slots that recieve signals here
+    void appendToDisplay(QString);
 
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);

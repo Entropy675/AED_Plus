@@ -14,11 +14,15 @@
 // might want to extend some other kind of displayable object?
 class HeartRateMonitor : public QGraphicsScene
 {
+    Q_OBJECT
 
 public:
     HeartRateMonitor(QWidget *parent = nullptr, double heartRateSec = START_HEART_RATE, int width = 200, int height = 200);
     ~HeartRateMonitor();
     void updateHeartRate(int newHeartRateBPM);
+
+signals:
+    void pushTextToDisplay(QString s);
 
 private slots:
     void updatePosition();

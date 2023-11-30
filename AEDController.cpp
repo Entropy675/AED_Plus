@@ -7,6 +7,9 @@ AEDController::AEDController(Ui::MainWindow& u)
     hMonitor = new HeartRateMonitor(nullptr, START_HEART_RATE, u.HeartRateView->width(), u.HeartRateView->height());
     u.HeartRateView->setScene(hMonitor);
 
+    // connect signal from HeartRateMonitor to this classes slot
+    connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
+
     outputText = new OutputTextbox(ui.outputTextGroupBox);
 
     QVBoxLayout* layout = new QVBoxLayout();
@@ -24,6 +27,11 @@ void AEDController::handleScreenResized(int w, int h)
 {
     // we could rescale the UI element sizes here...
     // new window widths are w and h
+}
+
+void AEDController::appendToDisplay(QString s)
+{
+    outputText->append(s);
 }
 
 // occurs each tick...
