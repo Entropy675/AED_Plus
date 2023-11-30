@@ -26,7 +26,7 @@ void AEDController::handleScreenResized(int w, int h)
     // new window widths are w and h
 }
 
-
+// occurs each tick...
 void AEDController::update()
 {
     switch(state)
