@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>946</width>
-    <height>654</height>
+    <width>1095</width>
+    <height>818</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <widget class="QGraphicsView" name="HeartRateView">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>230</y>
-      <width>201</width>
+      <x>320</x>
+      <y>140</y>
+      <width>191</width>
       <height>171</height>
      </rect>
     </property>
@@ -27,14 +27,27 @@
    <widget class="QGroupBox" name="outputTextGroupBox">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>800</x>
       <y>40</y>
-      <width>181</width>
-      <height>561</height>
+      <width>251</width>
+      <height>731</height>
      </rect>
     </property>
     <property name="title">
      <string/>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>330</y>
+      <width>191</width>
+      <height>321</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Patient Body</string>
     </property>
    </widget>
   </widget>
@@ -43,8 +56,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>946</width>
-     <height>25</height>
+     <width>1095</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
