@@ -22,7 +22,7 @@ AEDController::AEDController(Ui::MainWindow& u)
     outputBoxLayout->addWidget(outputText);
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
-    QPixmap aedPadsImage(":/assets/placement-aed-pads.jpg");
+    QPixmap aedPadsImage(":/assets/placement-aed-pads0.png");
     QLabel* aedImage = new QLabel();
     aedImage->setPixmap(aedPadsImage);
     aedImage->setScaledContents(true);
