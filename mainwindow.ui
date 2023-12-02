@@ -37,12 +37,12 @@
      <string/>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="patientBodyBox">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>270</x>
       <y>330</y>
-      <width>191</width>
+      <width>291</width>
       <height>321</height>
      </rect>
     </property>

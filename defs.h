@@ -7,7 +7,7 @@
 #define PING_RATE_MS            10
 #define HEART_RATE_SCALE        1.5
 #define MINIMUM_RED_COLOR       30
-#define HEART_RATE_MON_LOG      true
+#define HEART_RATE_MON_LOG      false
 
 /// STARTING VALUES:
 #define START_HEART_RATE        130

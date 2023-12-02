@@ -1,5 +1,7 @@
 #include "AEDController.h"
 #include <QVBoxLayout>
+#include <QPixmap>
+#include <QLabel>
 
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
@@ -16,9 +18,17 @@ AEDController::AEDController(Ui::MainWindow& u)
 
     outputText = new OutputTextbox(ui.outputTextGroupBox);
 
-    QVBoxLayout* layout = new QVBoxLayout();
-    layout->addWidget(outputText);
-    ui.outputTextGroupBox->setLayout(layout);
+    QVBoxLayout* outputBoxLayout = new QVBoxLayout();
+    outputBoxLayout->addWidget(outputText);
+    ui.outputTextGroupBox->setLayout(outputBoxLayout);
+
+    QPixmap aedPadsImage(":/assets/placement-aed-pads.jpg");
+    QLabel* aedImage = new QLabel();
+    aedImage->setPixmap(aedPadsImage);
+    aedImage->setScaledContents(true);
+    QVBoxLayout* patientBodyLayout = new QVBoxLayout(ui.patientBodyBox);
+    patientBodyLayout->addWidget(aedImage);
+    ui.patientBodyBox->setLayout(patientBodyLayout);
 }
 
 AEDController::~AEDController()

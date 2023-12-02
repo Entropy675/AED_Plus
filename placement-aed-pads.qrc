@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/placement-aed-pads.jpg</file>
+    </qresource>
+</RCC>
