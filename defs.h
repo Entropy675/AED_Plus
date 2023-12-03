@@ -8,7 +8,7 @@
 #define HEART_RATE_SCALE        1.5
 #define MINIMUM_RED_COLOR       30
 #define HEART_RATE_MON_LOG      true
-#define AED_DEMO_LOOP_RATE_MS   1000
+#define AED_DEMO_LOOP_RATE_MS   500
 
 /// STARTING VALUES:
 #define START_HEART_RATE        75

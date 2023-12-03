@@ -44,7 +44,9 @@ void HeartRateMonitor::updatePosition()
     }
 
 
-    QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 3, 8); // Adjust the rectangle as needed
+    QGraphicsEllipseItem* pointItemPre = new QGraphicsEllipseItem(1, 1, 3, 4); // Adjust the rectangle as needed
+    QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 3, 5); // Adjust the rectangle as needed
+    QGraphicsEllipseItem* pointItemPost = new QGraphicsEllipseItem(1, 1, 3, 6); // Adjust the rectangle as needed
     if(redColorShift > MINIMUM_RED_COLOR) // max
         redColorShift -= 4;
 
@@ -52,20 +54,28 @@ void HeartRateMonitor::updatePosition()
     {
         if(HEART_RATE_MON_LOG)
             qDebug() << -50*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
+        pointItemPre->setPos(0, -50*heartBeatFunc(-heartBeatOccurring + 0.007));
         pointItem->setPos(0, -50*heartBeatFunc(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
+        pointItemPost->setPos(0, -50*heartBeatFunc(-heartBeatOccurring - 0.007));
         heartBeatOccurring -= 0.022;
         if(heartBeatOccurring < 0)
             heartBeatOccurring = 0;
     }
 
+    pointItemPre->setBrush(QColor(redColorShift, 111, 111)); // Set the color of the point
+    pointItemPre->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
     pointItem->setBrush(QColor(redColorShift, 111, 111)); // Set the color of the point
     pointItem->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
+    pointItemPost->setBrush(QColor(redColorShift, 111, 111)); // Set the color of the point
+    pointItemPost->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
 
+    this->addItem(pointItemPre);
     this->addItem(pointItem);
+    this->addItem(pointItemPost);
 
     if(((int)(heartBeatOccurring*100) % 10) == 0 && heartBeatOccurring)
     {
-        QGraphicsEllipseItem* pointItem2 = new QGraphicsEllipseItem(1, 1, 3, 8); // Adjust the rectangle as needed
+        QGraphicsEllipseItem* pointItem2 = new QGraphicsEllipseItem(1, 1, 3, 4); // Adjust the rectangle as needed
         pointItem2->setBrush(QColor(110, 145, 145)); // Set the color of the point
         pointItem2->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
         this->addItem(pointItem2);

@@ -54,6 +54,7 @@ void AEDController::AEDAttachedStartAnalyzing()
 
 void AEDController::electrocutePressed()
 {
+    qDebug("electrocutePressed...");
     if(state != Shock)
         return;
 
