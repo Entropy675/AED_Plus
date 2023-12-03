@@ -14,4 +14,21 @@ AEDPlacement::AEDPlacement(QGroupBox* g)
     patientBodyLayout = new QVBoxLayout(g);
     patientBodyLayout->addWidget(aedImage);
     g->setLayout(patientBodyLayout);
+
+    flashTimer = new QTimer(this);
+    connect(flashTimer, &QTimer::timeout, this, &AEDPlacement::loopAnimationTillButtonPress);
+    //flashTimer->start(Animation loop rate ms);
+
+}
+
+
+void AEDPlacement::loopAnimationTillButtonPress()
+{
+    // flash the current image between currentState and nextState
+    // after some callback signal confirms the state change, stop and switch state
+}
+
+void AEDPlacement::start()
+{
+    flashTimer->start(AED_DEMO_LOOP_RATE_MS);
 }

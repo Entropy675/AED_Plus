@@ -2,7 +2,6 @@
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <QLabel>
-
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
 {
