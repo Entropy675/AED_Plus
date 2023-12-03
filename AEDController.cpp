@@ -15,7 +15,7 @@ AEDController::AEDController(Ui::MainWindow& u)
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
 
-    outputText = new OutputTextbox(ui.outputTextGroupBox);
+    outputText = new QTextBrowser(ui.outputTextGroupBox);
 
     QVBoxLayout* outputBoxLayout = new QVBoxLayout();
     outputBoxLayout->addWidget(outputText);
@@ -54,9 +54,14 @@ void AEDController::AEDAttachedStartAnalyzing()
 
 void AEDController::electrocutePressed()
 {
+<<<<<<< Updated upstream
     qDebug("electrocutePressed...");
     if(state != Shock)
         return;
+=======
+    //if(state != Shock)
+        //return;
+>>>>>>> Stashed changes
 
     qDebug("Shock is delivered to the patient!!!!");
 }

@@ -3,10 +3,10 @@
 #include "./ui_mainwindow.h"
 
 #include "HeartRateMonitor.h"
-#include "OutputTextbox.h"
 #include "AEDPlacement.h"
 
 #include <QObject>
+#include <QTextBrowser>
 
 class AEDController : public QObject
 {
@@ -47,7 +47,7 @@ private:
     const Ui::MainWindow& ui;
     AEDState state;
 
-    OutputTextbox* outputText;
+    QTextBrowser* outputText;
     HeartRateMonitor* hMonitor;
     AEDPlacement* aedPlacementDemo;
 

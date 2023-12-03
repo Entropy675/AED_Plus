@@ -28,6 +28,9 @@ public:
     AEDPlacement(QGroupBox* g = nullptr);
     bool isDone();
 
+    void stopFlashingAnimation();
+    void startFlashingAnimation();
+
 signals:
     void AEDAttachedToPatient();
     void electrocutePatientPressed();
@@ -49,6 +52,7 @@ private:
     QPushButton* buttonMid;
     QPushButton* buttonRight;
     bool flip = false;
+    bool flashAnimation = true;
 
     AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPads;
 
