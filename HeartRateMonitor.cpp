@@ -3,13 +3,11 @@
 
 // an object that displays the heart rate on the screen.
 
-HeartRateMonitor::HeartRateMonitor(QWidget *parent, double startHeartRate, int width, int height)
+HeartRateMonitor::HeartRateMonitor(QWidget *parent, int width, int height)
     : QGraphicsScene(parent), vWidth(width - 10), vHeight(height - 10)
 {
     heartRateTimer = new QTimer(this);
     connect(heartRateTimer, &QTimer::timeout, this, &HeartRateMonitor::heartBeat);
-    heartRateTimer->start(1000/(startHeartRate/60.0)*HEART_RATE_SCALE); // scaled down by 1.5 for fitting it all in a small space
-    // qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &HeartRateMonitor::updatePosition);
@@ -27,6 +25,12 @@ HeartRateMonitor::~HeartRateMonitor()
     updateTimer = nullptr;
 }
 
+void HeartRateMonitor::startAnalyzing(double heartRate)
+{
+    // heartRateTimer->stop();
+    heartRateTimer->start(1000/(heartRate/60.0)*HEART_RATE_SCALE); // scaled down by 1.5 for fitting it all in a small space
+    // qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
+}
 
 // runs at PING_RATE_MS
 void HeartRateMonitor::updatePosition()

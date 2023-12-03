@@ -5,7 +5,7 @@
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
 {
-    hMonitor = new HeartRateMonitor(nullptr, START_HEART_RATE, u.HeartRateView->width(), u.HeartRateView->height());
+    hMonitor = new HeartRateMonitor(nullptr, u.HeartRateView->width(), u.HeartRateView->height());
     u.HeartRateView->setScene(hMonitor);
 
     updateTimer = new QTimer(this);
@@ -22,6 +22,8 @@ AEDController::AEDController(Ui::MainWindow& u)
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
     aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
+    connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
+    connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
 }
 
 AEDController::~AEDController()
@@ -43,6 +45,19 @@ void AEDController::handleScreenResized(int w, int h)
 void AEDController::appendToDisplay(QString s)
 {
     outputText->append(s);
+}
+
+void AEDController::AEDAttachedStartAnalyzing()
+{
+    hMonitor->startAnalyzing();
+}
+
+void AEDController::electrocutePressed()
+{
+    if(state != Shock)
+        return;
+
+    qDebug("Shock is delivered to the patient!!!!");
 }
 
 // occurs each tick...

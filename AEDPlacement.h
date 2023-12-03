@@ -26,12 +26,18 @@ public:
     // wait for button press, then switch
 
     AEDPlacement(QGroupBox* g = nullptr);
-    void start();
+    bool isDone();
+
+signals:
+    void AEDAttachedToPatient();
+    void electrocutePatientPressed();
 
 private slots:
     void loopAnimationTillButtonPress();
     void placePadLeft();
+    void attachedToPatient();
     void placePadRight();
+    void electrocutePressed();
 
 private:
     const QGroupBox* window;
@@ -40,6 +46,7 @@ private:
     QVBoxLayout* patientBodyLayout;
     QHBoxLayout* HButtonBox;
     QPushButton* buttonLeft;
+    QPushButton* buttonMid;
     QPushButton* buttonRight;
     bool flip = false;
 

@@ -34,12 +34,14 @@ signals:
 public slots:
     // add slots that recieve signals here
     void appendToDisplay(QString);
+    void electrocutePressed();
 
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);
 
 private slots:
     void update();
+    void AEDAttachedStartAnalyzing();
 
 private:
     const Ui::MainWindow& ui;
