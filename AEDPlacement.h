@@ -1,13 +1,13 @@
 #ifndef AEDPLACEMENT_H
 #define AEDPLACEMENT_H
 
-#include "defs.h"
-
 #include <QObject>
 #include <QGroupBox>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QTimer>
+#include <QPushButton>
 
 class AEDPlacement : public QObject
 {
@@ -30,11 +30,18 @@ public:
 
 private slots:
     void loopAnimationTillButtonPress();
+    void placePadLeft();
+    void placePadRight();
 
 private:
     const QGroupBox* window;
     QLabel* aedImage;
+    QPixmap aedPadsImages[5];
     QVBoxLayout* patientBodyLayout;
+    QHBoxLayout* HButtonBox;
+    QPushButton* buttonLeft;
+    QPushButton* buttonRight;
+    bool flip = false;
 
     AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPads;
 
