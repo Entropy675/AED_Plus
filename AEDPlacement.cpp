@@ -36,15 +36,31 @@ AEDPlacement::AEDPlacement(QGroupBox* g)
 }
 
 
+
+void AEDPlacement::stopFlashingAnimation()
+{
+    flashAnimation = false;
+}
+
+void AEDPlacement::startFlashingAnimation()
+{
+    flashAnimation = true;
+}
+
 void AEDPlacement::loopAnimationTillButtonPress()
 {
     // flash the current image between currentState and nextState
     // after some callback signal confirms the state change, stop and switch state
-    if(flip)
-        aedImage->setPixmap(aedPadsImages[currentState]);
+    if(flashAnimation)
+    {
+        if(flip)
+            aedImage->setPixmap(aedPadsImages[currentState]);
+        else
+            aedImage->setPixmap(aedPadsImages[nextState]);
+        flip = !flip;
+    }
     else
-        aedImage->setPixmap(aedPadsImages[nextState]);
-    flip = !flip;
+        aedImage->setPixmap(aedPadsImages[currentState]);
 }
 
 void AEDPlacement::placePadLeft()
