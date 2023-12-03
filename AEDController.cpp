@@ -22,13 +22,7 @@ AEDController::AEDController(Ui::MainWindow& u)
     outputBoxLayout->addWidget(outputText);
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
-    QPixmap aedPadsImage(":/assets/placement-aed-pads0.png");
-    QLabel* aedImage = new QLabel();
-    aedImage->setPixmap(aedPadsImage);
-    aedImage->setScaledContents(true);
-    QVBoxLayout* patientBodyLayout = new QVBoxLayout(ui.patientBodyBox);
-    patientBodyLayout->addWidget(aedImage);
-    ui.patientBodyBox->setLayout(patientBodyLayout);
+    aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
 }
 
 AEDController::~AEDController()
@@ -38,6 +32,7 @@ AEDController::~AEDController()
 
     delete hMonitor;
     delete outputText;
+    delete aedPlacementDemo;
 }
 
 void AEDController::handleScreenResized(int w, int h)

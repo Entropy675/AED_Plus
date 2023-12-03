@@ -4,6 +4,7 @@
 
 #include "HeartRateMonitor.h"
 #include "OutputTextbox.h"
+#include "AEDPlacement.h"
 
 #include <QObject>
 
@@ -46,6 +47,7 @@ private:
 
     OutputTextbox* outputText;
     HeartRateMonitor* hMonitor;
+    AEDPlacement* aedPlacementDemo;
 
     QTimer* updateTimer;
 };
