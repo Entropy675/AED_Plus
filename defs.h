@@ -11,7 +11,7 @@
 #define AED_DEMO_LOOP_RATE_MS   500
 
 /// STARTING VALUES:
-#define START_HEART_RATE        100
+#define START_HEART_RATE        70
 #define HEART_BPM_VARIATION     15
 
 
