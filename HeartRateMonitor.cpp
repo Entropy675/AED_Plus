@@ -1,5 +1,7 @@
 #include "HeartRateMonitor.h"
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 
 // an object that displays the heart rate on the screen.
 
@@ -7,11 +9,14 @@ HeartRateMonitor::HeartRateMonitor(QWidget *parent, int width, int height)
     : QGraphicsScene(parent), vWidth(width - 10), vHeight(height - 10)
 {
     heartRateTimer = new QTimer(this);
+    heartRateTimer->setSingleShot(true);
     connect(heartRateTimer, &QTimer::timeout, this, &HeartRateMonitor::heartBeat);
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &HeartRateMonitor::updatePosition);
     updateTimer->start(PING_RATE_MS);
+
+    std::srand(static_cast<unsigned int>(std::time(0)));
 }
 
 HeartRateMonitor::~HeartRateMonitor()
@@ -28,6 +33,7 @@ HeartRateMonitor::~HeartRateMonitor()
 void HeartRateMonitor::startAnalyzing(double heartRate)
 {
     // heartRateTimer->stop();
+    bpm = heartRate;
     heartRateTimer->start(1000/(heartRate/60.0)*HEART_RATE_SCALE); // scaled down by 1.5 for fitting it all in a small space
     // qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
 }
@@ -44,9 +50,9 @@ void HeartRateMonitor::updatePosition()
     }
 
 
-    QGraphicsEllipseItem* pointItemPre = new QGraphicsEllipseItem(1, 1, 3, 4); // Adjust the rectangle as needed
+    QGraphicsEllipseItem* pointItemPre = new QGraphicsEllipseItem(1, 1, 3, 4);
     QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 3, 5); // Adjust the rectangle as needed
-    QGraphicsEllipseItem* pointItemPost = new QGraphicsEllipseItem(1, 1, 3, 6); // Adjust the rectangle as needed
+    QGraphicsEllipseItem* pointItemPost = new QGraphicsEllipseItem(1, 1, 3, 6);
     if(redColorShift > MINIMUM_RED_COLOR) // max
         redColorShift -= 4;
 
@@ -64,10 +70,10 @@ void HeartRateMonitor::updatePosition()
 
     pointItemPre->setBrush(QColor(redColorShift, 111, 111)); // Set the color of the point
     pointItemPre->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
-    pointItem->setBrush(QColor(redColorShift, 111, 111)); // Set the color of the point
-    pointItem->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
-    pointItemPost->setBrush(QColor(redColorShift, 111, 111)); // Set the color of the point
-    pointItemPost->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
+    pointItem->setBrush(QColor(redColorShift, 111, 111));
+    pointItem->setPen(Qt::NoPen);
+    pointItemPost->setBrush(QColor(redColorShift, 111, 111));
+    pointItemPost->setPen(Qt::NoPen);
 
     this->addItem(pointItemPre);
     this->addItem(pointItem);
@@ -76,8 +82,8 @@ void HeartRateMonitor::updatePosition()
     if(((int)(heartBeatOccurring*100) % 10) == 0 && heartBeatOccurring)
     {
         QGraphicsEllipseItem* pointItem2 = new QGraphicsEllipseItem(1, 1, 3, 4); // Adjust the rectangle as needed
-        pointItem2->setBrush(QColor(110, 145, 145)); // Set the color of the point
-        pointItem2->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
+        pointItem2->setBrush(QColor(110, 145, 145));
+        pointItem2->setPen(Qt::NoPen);
         this->addItem(pointItem2);
     }
 }
@@ -88,7 +94,7 @@ double HeartRateMonitor::heartBeatFunc(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
     if(HEART_RATE_MON_LOG)
-        emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
+        qDebug() << (std::sin(x * 3.14 * 10 + 5.759) + 0.5) << " ";
     return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
 }
 
@@ -97,6 +103,9 @@ void HeartRateMonitor::heartBeat()
 {
     heartBeatOccurring = 1; // set to 1 to start the heart beat
     redColorShift = 255;
+    int newRandomBpm = bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation);
+    emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
+    heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
 }
 
 void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)

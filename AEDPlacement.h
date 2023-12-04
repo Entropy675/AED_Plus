@@ -32,6 +32,7 @@ public:
     void startFlashingAnimation();
 
 signals:
+    void pushTextToDisplay(QString s);
     void AEDAttachedToPatient();
     void electrocutePatientPressed();
 

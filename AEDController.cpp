@@ -8,12 +8,12 @@ AEDController::AEDController(Ui::MainWindow& u)
     hMonitor = new HeartRateMonitor(nullptr, u.HeartRateView->width(), u.HeartRateView->height());
     u.HeartRateView->setScene(hMonitor);
 
+    // connect signal from HeartRateMonitor to this classes slot
+    connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
+
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &AEDController::update);
     updateTimer->start(PING_RATE_MS);
-
-    // connect signal from HeartRateMonitor to this classes slot
-    connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
 
     outputText = new QTextBrowser(ui.outputTextGroupBox);
 
@@ -22,6 +22,7 @@ AEDController::AEDController(Ui::MainWindow& u)
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
     aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
+    connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
     connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
     connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
 }
@@ -54,14 +55,8 @@ void AEDController::AEDAttachedStartAnalyzing()
 
 void AEDController::electrocutePressed()
 {
-<<<<<<< Updated upstream
-    qDebug("electrocutePressed...");
-    if(state != Shock)
-        return;
-=======
     //if(state != Shock)
         //return;
->>>>>>> Stashed changes
 
     qDebug("Shock is delivered to the patient!!!!");
 }
