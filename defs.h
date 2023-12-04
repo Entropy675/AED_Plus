@@ -12,7 +12,7 @@
 
 /// STARTING VALUES:
 #define START_HEART_RATE        100
-
+#define HEART_BPM_VARIATION     15
 
 
 #endif // DEFS_H
