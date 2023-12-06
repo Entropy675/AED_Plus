@@ -41,6 +41,7 @@ public slots:
 
 private slots:
     void update();
+    void resetHeartbeat();
     void AEDAttachedStartAnalyzing();
 
 private:
@@ -52,6 +53,7 @@ private:
     AEDPlacement* aedPlacementDemo;
 
     QTimer* updateTimer;
+    QTimer* restartHeartbeat;
 };
 
 #endif

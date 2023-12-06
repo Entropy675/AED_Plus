@@ -2,6 +2,8 @@
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <QLabel>
+#include <QThread>
+
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
 {
@@ -14,6 +16,10 @@ AEDController::AEDController(Ui::MainWindow& u)
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &AEDController::update);
     updateTimer->start(PING_RATE_MS);
+
+    restartHeartbeat = new QTimer(this);
+    restartHeartbeat->setSingleShot(true);
+    connect(restartHeartbeat, &QTimer::timeout, this, &AEDController::resetHeartbeat);
 
     outputText = new QTextBrowser(ui.outputTextGroupBox);
 
@@ -55,10 +61,20 @@ void AEDController::AEDAttachedStartAnalyzing()
 
 void AEDController::electrocutePressed()
 {
-    //if(state != Shock)
+    //if(state != Shock) // add this back later when the states work
         //return;
-
+    appendToDisplay("Electricution delivered!");
     qDebug("Shock is delivered to the patient!!!!");
+    hMonitor->updateHeartRate(300);
+    restartHeartbeat->start(1200);
+}
+
+void AEDController::resetHeartbeat()
+{
+
+    hMonitor->updateHeartRate(START_HEART_RATE);
+    qDebug("Patient stabalizing...");
+    appendToDisplay("Patient stabalizing...");
 }
 
 // occurs each tick...

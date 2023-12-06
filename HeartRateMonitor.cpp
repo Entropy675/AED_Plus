@@ -30,7 +30,17 @@ HeartRateMonitor::~HeartRateMonitor()
     updateTimer = nullptr;
 }
 
-void HeartRateMonitor::startAnalyzing(double heartRate)
+void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
+{
+    heartRateTimer->stop();
+    if(!newHeartRateBPM)
+        return;
+
+    bpm = newHeartRateBPM;
+    heartRateTimer->start(1000/(newHeartRateBPM/60.0)*HEART_RATE_SCALE); // 60 seconds in a minute, 1000ms ;) (scaled it by 1.5 just for display purposes)
+}
+
+void HeartRateMonitor::startAnalyzing(int heartRate)
 {
     // heartRateTimer->stop();
     bpm = heartRate;
@@ -106,11 +116,4 @@ void HeartRateMonitor::heartBeat()
     int newRandomBpm = bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation);
     emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
     heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
-}
-
-void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
-{
-    heartRateTimer->stop();
-    if(newHeartRateBPM)
-        heartRateTimer->start(1000/(newHeartRateBPM/60.0)*HEART_RATE_SCALE); // 60 seconds in a minute, 1000ms ;) (scaled it by 1.5 just for display purposes)
 }
