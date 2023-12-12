@@ -7,14 +7,14 @@
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
 {
-    hMonitor = new HeartRateMonitor(nullptr, u.HeartRateView->width(), u.HeartRateView->height());
-    u.HeartRateView->setScene(hMonitor);
+    hMonitor = new HeartRateMonitor(nullptr, u.graphicsView->width(), u.graphicsView->height());
+    u.graphicsView->setScene(hMonitor);
 
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
 
     updateTimer = new QTimer(this);
-    connect(updateTimer, &QTimer::timeout, this, &AEDController::update);
+    //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
     updateTimer->start(PING_RATE_MS);
 
     restartHeartbeat = new QTimer(this);
@@ -31,6 +31,12 @@ AEDController::AEDController(Ui::MainWindow& u)
     connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
     connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
     connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
+
+    aedRingDemo = new AEDRing(ui.AEDRingView);
+
+
+    connect(aedRingDemo, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
+
 }
 
 AEDController::~AEDController()
@@ -77,28 +83,42 @@ void AEDController::resetHeartbeat()
     appendToDisplay("Patient stabalizing...");
 }
 
-// occurs each tick...
-void AEDController::update()
+void AEDController::updateAEDRingState(AEDState stateToUpdateTo)
 {
-    // qDebug() << " AED CONTROLLER: Update tick... ";
-
-    switch(state)
+    state = stateToUpdateTo;
+    switch (stateToUpdateTo)
     {
-    case PhysicalError:
+    case AnalyzingResponsiveness:
+        qDebug() << "Analyzing Responsiveness";
         break;
-    case StandClear:
+
+    case EmergencyServices:
+        qDebug() << "Emergency Services";
         break;
-    case PowerOff:
+
+    case Breathing:
+        qDebug() << "Breathing";
         break;
-    case Analyzing:
+
+    case ElectrodePlacement:
+        qDebug() << "Electrode Placement";
         break;
-    case ShockAdvised:
+
+    case HeartRythmAnalysis:
+        qDebug() << "Heart Rhythm Analysis";
         break;
+
     case Shock:
+        qDebug() << "Shock";
         break;
+
     case PostShockCare:
+        qDebug() << "Post Shock Care";
         break;
+
     case ContinuedEvaluation:
+
+        qDebug() << "Continued Evaluation";
         break;
     }
 }

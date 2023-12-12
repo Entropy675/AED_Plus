@@ -14,5 +14,16 @@
 #define START_HEART_RATE        70
 #define HEART_BPM_VARIATION     15
 
+enum AEDState
+{   AnalyzingResponsiveness,
+  EmergencyServices,
+  Breathing, // use lid to put behind victims shoulders to maintain an effective airway (dont use support if spinal injury)
+  ElectrodePlacement,
+  HeartRythmAnalysis,
+  Shock,
+  PostShockCare, // could be a transition
+  ContinuedEvaluation // this can be the default if nothing is wrong ... (reset to ring without any state light flashing)
+}; // we can add more/remove some as we need
+
 
 #endif // DEFS_H
