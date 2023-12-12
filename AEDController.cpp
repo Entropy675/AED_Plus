@@ -31,6 +31,11 @@ AEDController::AEDController(Ui::MainWindow& u)
     connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
     connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
     connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
+
+    connect(ui.pushButton1, &QPushButton::clicked, this, &AEDController::powerDown);
+    battery = new Battery(u.BatteryView);
+    battery->start();
+
 }
 
 AEDController::~AEDController()
@@ -100,5 +105,40 @@ void AEDController::update()
         break;
     case ContinuedEvaluation:
         break;
+    }
+}
+
+void AEDController::enableAllComponents()
+{
+    ui.HeartRateView->setVisible(true);
+    ui.BatteryView->setVisible(true);
+    ui.centralwidget->setVisible(true);
+    ui.patientBodyBox->setVisible(true);
+    ui.outputTextGroupBox->setVisible(true);
+
+}
+
+void AEDController::disableAllComponents()
+{
+    ui.HeartRateView->setVisible(false);
+    ui.BatteryView->setVisible(false);
+    ui.patientBodyBox->setVisible(false);
+    ui.pushButton1->setVisible(true);
+    ui.outputTextGroupBox->setVisible(false);
+}
+void AEDController::powerDown()
+{
+    qDebug() << "Power button pressed!";
+
+    // Toggle the visibility of all components
+    if (ui.HeartRateView->isVisible())
+    {
+        battery->stop();
+        disableAllComponents();
+    }
+    else
+    {
+        battery->start();
+        enableAllComponents();
     }
 }

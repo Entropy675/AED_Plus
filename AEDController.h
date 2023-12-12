@@ -1,7 +1,7 @@
 #ifndef AEDCONTROLLER_H
 #define AEDCONTROLLER_H
 #include "./ui_mainwindow.h"
-
+#include "Battery.h"
 #include "HeartRateMonitor.h"
 #include "AEDPlacement.h"
 
@@ -51,6 +51,11 @@ private:
     QTextBrowser* outputText;
     HeartRateMonitor* hMonitor;
     AEDPlacement* aedPlacementDemo;
+    Battery* battery;
+    bool isPowerDown;
+    void enableAllComponents();
+    void disableAllComponents();
+    QPushButton* powerButton;
 
     QTimer* updateTimer;
     QTimer* restartHeartbeat;
