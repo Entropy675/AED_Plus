@@ -1,6 +1,6 @@
 #include "AEDRing.h"
 
-AEDRing::AEDRing(QGroupBox *view) : window(view), currState(AEDState::ContinuedEvaluation)
+AEDRing::AEDRing(QGroupBox *view) : window(view)
 {
     for (int i = 0; i < 7; ++i) {
         QString imagePath = QString(":/assets/AED_RING_STATE%1.png").arg(i);
@@ -23,13 +23,19 @@ AEDRing::AEDRing(QGroupBox *view) : window(view), currState(AEDState::ContinuedE
 }
 
 void AEDRing::updateButtonClicked() {
+    emit updateAEDState();
+}
 
-    currState = static_cast<AEDState>((currState + 1) % 7);
 
-    // Update the displayed image
-    aedImage->setPixmap(aedStateImages[currState]);
+void AEDRing::updateImage(AEDState state) {
+    aedImage->setPixmap(aedStateImages[state]);
+}
 
-    // Emit the signal to notify about the state change
-    emit updateAEDState(currState);
+void AEDRing::disable() {
+    updateButton->setDisabled(true);
+}
+
+void AEDRing::enable() {
+    updateButton->setDisabled(false);
 }
 

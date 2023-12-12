@@ -30,7 +30,7 @@ public slots:
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);
 
-    void updateAEDRingState(AEDState newState);
+    void updateAEDRingState();
 
 private slots:
     void resetHeartbeat();
@@ -38,18 +38,21 @@ private slots:
 
 private:
     const Ui::MainWindow& ui;
-    AEDState state;
+    AEDState currState;
 
     QTextBrowser* outputText;
     HeartRateMonitor* hMonitor;
     AEDPlacement* aedPlacementDemo;
 
-    AEDRing* aedRingDemo;
+    AEDRing* aedRing;
 
     Battery* battery;
     bool isPowerDown;
+    void powerDown();
     void enableAllComponents();
     void disableAllComponents();
+
+    void enableAEDPlacement();
     QPushButton* powerButton;
 
     QTimer* updateTimer;

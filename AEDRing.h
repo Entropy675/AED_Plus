@@ -14,20 +14,24 @@ class AEDRing : public QWidget
 
 public:
     AEDRing(QGroupBox* window = nullptr);
+    void disable();
+    void enable();
+    void updateImage(AEDState);
 
 private slots:
 void updateButtonClicked();
 
+
 signals:
-void updateAEDState(AEDState newState);
+void updateAEDState();
 
 private:
     QGroupBox* window;
-    AEDState currState;
     QVBoxLayout *originalState;
     QLabel* aedImage;
     QPixmap aedStateImages[7];
     QPushButton *updateButton;
+
 };
 
 #endif // AEDRING_H

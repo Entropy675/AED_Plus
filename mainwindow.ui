@@ -30,9 +30,9 @@
    <widget class="QGroupBox" name="AEDRingView">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>120</x>
       <y>0</y>
-      <width>1001</width>
+      <width>891</width>
       <height>671</height>
      </rect>
     </property>
@@ -53,7 +53,7 @@
      <string>Patient Body</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QGraphicsView" name="HeartRateView">
     <property name="geometry">
      <rect>
       <x>1080</x>
@@ -63,15 +63,11 @@
      </rect>
     </property>
    </widget>
-   <zorder>AEDRingView</zorder>
-   <zorder>outputTextGroupBox</zorder>
-   <zorder>patientBodyBox</zorder>
-   <zorder>graphicsView</zorder>
    <widget class="QPushButton" name="pushButton1">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>150</y>
+      <x>20</x>
+      <y>190</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -90,7 +86,12 @@
      </rect>
     </property>
    </widget>
->>>>>>> origin/moizzBranch
+   <zorder>pushButton1</zorder>
+   <zorder>BatteryView</zorder>
+   <zorder>AEDRingView</zorder>
+   <zorder>outputTextGroupBox</zorder>
+   <zorder>patientBodyBox</zorder>
+   <zorder>HeartRateView</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -99,8 +100,6 @@
      <y>0</y>
      <width>1920</width>
      <height>21</height>
-     <width>1116</width>
-     <height>22</height>
     </rect>
    </property>
   </widget>
