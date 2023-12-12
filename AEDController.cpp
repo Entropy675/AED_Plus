@@ -89,36 +89,36 @@ void AEDController::updateAEDRingState(AEDState stateToUpdateTo)
     switch (stateToUpdateTo)
     {
     case AnalyzingResponsiveness:
-        qDebug() << "Analyzing Responsiveness";
+        appendToDisplay("The current state of the AED is: Analyzing Responsiveness");
         break;
 
     case EmergencyServices:
-        qDebug() << "Emergency Services";
+        appendToDisplay("The current state of the AED is: Emergency Services");
         break;
 
     case Breathing:
-        qDebug() << "Breathing";
+        appendToDisplay("The current state of the AED is: Breathing");
         break;
 
     case ElectrodePlacement:
-        qDebug() << "Electrode Placement";
+        appendToDisplay("The current state of the AED is: Electrode Placement");
         break;
 
     case HeartRythmAnalysis:
-        qDebug() << "Heart Rhythm Analysis";
+        appendToDisplay("The current state of the AED is: Heart Rythym Analsysis");
         break;
 
     case Shock:
-        qDebug() << "Shock";
+          appendToDisplay("The current state of the AED is: Shock");
         break;
 
     case PostShockCare:
-        qDebug() << "Post Shock Care";
+       appendToDisplay("The current state of the AED is: Post Shock Care");
         break;
 
     case ContinuedEvaluation:
 
-        qDebug() << "Continued Evaluation";
+         appendToDisplay("The current state of the AED is: Continued Evaluation");
         break;
     }
 }
