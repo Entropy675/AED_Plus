@@ -67,6 +67,30 @@
    <zorder>outputTextGroupBox</zorder>
    <zorder>patientBodyBox</zorder>
    <zorder>graphicsView</zorder>
+   <widget class="QPushButton" name="pushButton1">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>150</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Power on/off</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="BatteryView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+>>>>>>> origin/moizzBranch
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -75,6 +99,8 @@
      <y>0</y>
      <width>1920</width>
      <height>21</height>
+     <width>1116</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
