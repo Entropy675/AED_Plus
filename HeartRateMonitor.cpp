@@ -5,8 +5,8 @@
 
 // an object that displays the heart rate on the screen.
 
-HeartRateMonitor::HeartRateMonitor(QWidget *parent, int width, int height)
-    : QGraphicsScene(parent), vWidth(width - 10), vHeight(height - 10)
+HeartRateMonitor::HeartRateMonitor(QWidget *parent, QLCDNumber* lcd, int width, int height)
+    : QGraphicsScene(parent), bpmLCD(lcd), vWidth(width - 10), vHeight(height - 10)
 {
     heartRateTimer = new QTimer(this);
     heartRateTimer->setSingleShot(true);
@@ -114,6 +114,8 @@ void HeartRateMonitor::heartBeat()
     heartBeatOccurring = 1; // set to 1 to start the heart beat
     redColorShift = 255;
     int newRandomBpm = bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation);
+
     emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
+
     heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
 }

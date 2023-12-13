@@ -10,6 +10,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QDebug>
+#include <QLCDNumber>
 
 // might want to extend some other kind of displayable object?
 class HeartRateMonitor : public QGraphicsScene
@@ -17,7 +18,7 @@ class HeartRateMonitor : public QGraphicsScene
     Q_OBJECT
 
 public:
-    HeartRateMonitor(QWidget *parent = nullptr, int width = 200, int height = 200);
+    HeartRateMonitor(QWidget *parent = nullptr, QLCDNumber* = nullptr, int width = 200, int height = 200);
     ~HeartRateMonitor();
 
     void updateHeartRate(int newHeartRateBPM);
@@ -41,6 +42,7 @@ private:
     // maybe sin(10*pi*x + 5.75) + 0.5 is better... looks closer to heartbeat between 0 and 0.2
     double heartBeatFunc(double x);
 
+    QLCDNumber* bpmLCD;
     QTimer* updateTimer;
     QTimer* heartRateTimer;
 };

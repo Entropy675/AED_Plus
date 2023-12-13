@@ -7,11 +7,13 @@
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u)
 {
-    hMonitor = new HeartRateMonitor(nullptr, u.HeartRateView->width(), u.HeartRateView->height());
+    hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
     u.HeartRateView->setScene(hMonitor);
 
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
+
+
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &AEDController::update);
