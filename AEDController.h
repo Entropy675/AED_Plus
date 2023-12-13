@@ -1,11 +1,14 @@
 #ifndef AEDCONTROLLER_H
 #define AEDCONTROLLER_H
+
+#include <QObject>
+
 #include "./ui_mainwindow.h"
+
 #include "Battery.h"
 #include "HeartRateMonitor.h"
 #include "OutputTextbox.h"
 #include "AEDPlacement.h"
-#include <QObject>
 #include "AEDRing.h"
 
 class AEDController : public QObject
@@ -19,14 +22,11 @@ public:
     void powerOn();
     void powerOff();
 
-signals:
-    // add signals here
-
 public slots:
     // add slots that recieve signals here
     void appendToDisplay(QString);
     void electrocutePressed();
-    void powerDown();
+    void power();
 
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);
@@ -35,6 +35,7 @@ public slots:
 
 private slots:
     void resetHeartbeat();
+    void heartRhythmChanged(int index);
     void AEDAttachedStartAnalyzing();
 
 private:
@@ -54,7 +55,9 @@ private:
 
     QPushButton* powerButton;
 
-    QTimer* updateTimer;
+    QPixmap powerButtonImageOn;
+    QPixmap powerButtonImageOff;
+
     QTimer* restartHeartbeat;
 };
 

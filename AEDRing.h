@@ -26,6 +26,8 @@ public:
 
 
     AEDRing(QGroupBox* window = nullptr);
+    ~AEDRing();
+
     void disable();
     void enable();
     void updateImage(AEDState);
@@ -48,6 +50,7 @@ private:
     QLabel* aedImage;
     QPixmap aedStateImages[7];
     QPushButton *updateButton;
+
 
 };
 
