@@ -5,28 +5,14 @@
 #include "HeartRateMonitor.h"
 #include "OutputTextbox.h"
 #include "AEDPlacement.h"
-#include "aedring.h"
-
-
 #include <QObject>
+#include "AEDRing.h"
 
 class AEDController : public QObject
 {
     Q_OBJECT
 
 public:
-
-  enum AEDState
-    {
-    Default,
-    AnalyzingResponsiveness,
-    EmergencyServices,
-    Breathing, // use lid to put behind victims shoulders to maintain an effective airway (dont use support if spinal injury)
-    ElectrodePlacement,
-    Shock, // shock is also HeartRythmAnalysis,this is where it will be judged
-    PostShockCare, // bunched with continued evaluation
-    }; // we can add more/remove some as we need
-
     AEDController(Ui::MainWindow& ui);
     ~AEDController();
 
@@ -53,7 +39,6 @@ private slots:
 
 private:
     const Ui::MainWindow& ui;
-    AEDState currState;
 
     OutputTextbox* outputText;
     HeartRateMonitor* hMonitor;
@@ -64,7 +49,6 @@ private:
     Battery* battery;
     bool isPowerDown;
     void batterydead();
-    void powerDown();
     void enableAllComponents();
     void disableAllComponents();
 
@@ -72,7 +56,7 @@ private:
     QPushButton* powerButton;
 
     QTimer* updateTimer;
-    QPushButton* powerButton;
+    QTimer* restartHeartbeat;
 };
 
 #endif

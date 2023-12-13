@@ -1,6 +1,6 @@
 #include "AEDRing.h"
 
-AEDRing::AEDRing(QGroupBox *view) : window(view)
+AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
 {
     for (int i = 0; i < 7; ++i) {
         QString imagePath = QString(":/assets/AED_RING_STATE%1.png").arg(i);
@@ -20,6 +20,14 @@ AEDRing::AEDRing(QGroupBox *view) : window(view)
 
     window->setLayout(originalState);
 
+}
+
+AEDRing::AEDState AEDRing::getState(){
+    return currState;
+}
+
+void AEDRing::setState(AEDRing::AEDState stateToSetTo) {
+    currState = stateToSetTo;
 }
 
 void AEDRing::updateButtonClicked() {
