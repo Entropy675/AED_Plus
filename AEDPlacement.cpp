@@ -31,7 +31,7 @@ AEDPlacement::AEDPlacement(QGroupBox* g)
     flashTimer = new QTimer(this);
     connect(flashTimer, &QTimer::timeout, this, &AEDPlacement::loopAnimationTillButtonPress);
     flashTimer->start(AED_DEMO_LOOP_RATE_MS);
-    powerOff();
+    power = false;
 }
 
 
@@ -55,8 +55,8 @@ void AEDPlacement::placePadLeft()
     if(currentState != NoPads && nextState != PadLeft)
         return;
 
+    disconnect(buttonLeft, &QPushButton::clicked, this, &AEDPlacement::placePadLeft); //(causes crashes TODO: figure this out)
     HButtonBox->removeWidget(buttonLeft);
-    disconnect(buttonLeft, &QPushButton::clicked, this, &AEDPlacement::placePadLeft);
     delete buttonLeft;
 
 
@@ -67,8 +67,9 @@ void AEDPlacement::placePadLeft()
 void AEDPlacement::startButtonPlacement()
 {
     buttonMid = new QPushButton("Attach AED to Patient");
-    connect(buttonMid, &QPushButton::clicked, this, &AEDPlacement::attachedToPatient);
+    buttonMid->setEnabled(false);
     HButtonBox->addWidget(buttonMid);
+    connect(buttonMid, &QPushButton::clicked, this, &AEDPlacement::attachedToPatient);
 }
 
 void AEDPlacement::powerOn()

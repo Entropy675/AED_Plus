@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1574</width>
-    <height>798</height>
+    <width>1649</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,23 +17,46 @@
    <widget class="QGroupBox" name="outputTextGroupBox">
     <property name="geometry">
      <rect>
-      <x>1260</x>
-      <y>400</y>
-      <width>281</width>
-      <height>351</height>
+      <x>1410</x>
+      <y>10</y>
+      <width>231</width>
+      <height>661</height>
      </rect>
     </property>
     <property name="title">
      <string/>
     </property>
    </widget>
+   <widget class="QGroupBox" name="AEDRingView">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>0</y>
+      <width>891</width>
+      <height>671</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>AEDRing</string>
+    </property>
+    <widget class="QPushButton" name="powerButton">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>180</y>
+       <width>141</width>
+       <height>131</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
    <widget class="QGroupBox" name="patientBodyBox">
     <property name="geometry">
      <rect>
-      <x>1260</x>
-      <y>10</y>
-      <width>281</width>
-      <height>351</height>
+      <x>1120</x>
+      <y>290</y>
+      <width>271</width>
+      <height>381</height>
      </rect>
     </property>
     <property name="title">
@@ -50,87 +73,64 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="powerButton">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>170</y>
-      <width>81</width>
-      <height>71</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="AEDRingView">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>20</y>
-      <width>1081</width>
-      <height>731</height>
+      <x>1160</x>
+      <y>40</y>
+      <width>191</width>
+      <height>211</height>
      </rect>
     </property>
     <property name="title">
      <string/>
     </property>
-    <widget class="QGroupBox" name="heartGroupBox">
+    <widget class="QGraphicsView" name="HeartRateView">
      <property name="geometry">
       <rect>
-       <x>470</x>
-       <y>240</y>
-       <width>171</width>
-       <height>191</height>
+       <x>0</x>
+       <y>40</y>
+       <width>191</width>
+       <height>171</height>
       </rect>
      </property>
-     <property name="title">
-      <string/>
+    </widget>
+    <widget class="QLCDNumber" name="bpmNumber">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>10</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
      </property>
-     <widget class="QLCDNumber" name="bpmNumber">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>10</y>
-        <width>41</width>
-        <height>23</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>101</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Heart Rate (BPM):</string>
-      </property>
-     </widget>
-     <widget class="QGraphicsView" name="HeartRateView">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>40</y>
-        <width>171</width>
-        <height>151</height>
-       </rect>
-      </property>
-     </widget>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Heart Rate (BPM):</string>
+     </property>
     </widget>
    </widget>
    <widget class="QComboBox" name="scenarioSelector">
     <property name="geometry">
      <rect>
-      <x>1310</x>
-      <y>370</y>
-      <width>251</width>
-      <height>24</height>
+      <x>10</x>
+      <y>200</y>
+      <width>181</width>
+      <height>41</height>
      </rect>
     </property>
     <item>
      <property name="text">
-      <string>Sinus Rythm (Pulseless Electrical Activity)</string>
+      <string>Sinus Rhythm</string>
      </property>
     </item>
     <item>
@@ -140,33 +140,33 @@
     </item>
     <item>
      <property name="text">
-      <string>Ventricular Fibrillation (VF)</string>
+      <string>Ventricular Fibrillation</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Ventricular Tachycardia (VT)</string>
+      <string>Ventricular Tachycardia</string>
      </property>
     </item>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>1250</x>
-      <y>370</y>
-      <width>61</width>
-      <height>21</height>
+      <x>10</x>
+      <y>180</y>
+      <width>81</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Scenario:</string>
+     <string>Demo Choice</string>
     </property>
    </widget>
-   <zorder>powerButton</zorder>
+   <zorder>groupBox</zorder>
    <zorder>BatteryView</zorder>
+   <zorder>AEDRingView</zorder>
    <zorder>outputTextGroupBox</zorder>
    <zorder>patientBodyBox</zorder>
-   <zorder>AEDRingView</zorder>
    <zorder>scenarioSelector</zorder>
    <zorder>label_2</zorder>
   </widget>
@@ -175,7 +175,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1574</width>
+     <width>1649</width>
      <height>21</height>
     </rect>
    </property>
