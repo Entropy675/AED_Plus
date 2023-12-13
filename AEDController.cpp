@@ -12,8 +12,9 @@ AEDController::AEDController(Ui::MainWindow& u)
     hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
-
+    connect(u.scenarioSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AEDController::heartRhythmChanged);
     u.HeartRateView->setScene(hMonitor);
+
 
     //updateTimer = new QTimer(this);
     //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
@@ -73,6 +74,31 @@ AEDController::~AEDController()
     delete hMonitor;
     delete outputText;
     delete aedPlacementDemo;
+}
+
+void AEDController::heartRhythmChanged(int index)
+{
+    qDebug() << "Heart rhythm changed";
+    switch(index)
+    {
+    case 0:
+        hMonitor->changeRhythm(HeartRateMonitor::PEA);
+        break;
+
+    case 1:
+        hMonitor->changeRhythm(HeartRateMonitor::ASYSTOLE);
+        break;
+
+    case 2:
+        hMonitor->changeRhythm(HeartRateMonitor::VF);
+        break;
+
+    case 3:
+        hMonitor->changeRhythm(HeartRateMonitor::VT);
+        break;
+    default:
+        return;
+    }
 }
 
 void AEDController::handleScreenResized(int w, int h)

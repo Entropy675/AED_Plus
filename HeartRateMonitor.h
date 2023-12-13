@@ -17,6 +17,7 @@ class HeartRateMonitor : public QGraphicsScene
 {
     Q_OBJECT
 
+public:
     enum HeartBeatType
     {
         PEA,
@@ -25,12 +26,12 @@ class HeartRateMonitor : public QGraphicsScene
         VT
     };
 
-public:
     HeartRateMonitor(QWidget *parent = nullptr, QLCDNumber* = nullptr, int width = 200, int height = 200);
     ~HeartRateMonitor();
 
     void updateHeartRate(int newHeartRateBPM);
     void startAnalyzing(int heartBPM = START_HEART_RATE);
+    void changeRhythm(HeartBeatType);
 
     bool isOn();
     void powerOn();
@@ -38,9 +39,6 @@ public:
 
 signals:
     void pushTextToDisplay(QString s);
-
-public slots:
-    void changeRhythm(HeartBeatType);
 
 private slots:
     void updatePosition();
