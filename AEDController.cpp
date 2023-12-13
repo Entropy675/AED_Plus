@@ -3,7 +3,7 @@
 #include <QPixmap>
 #include <QLabel>
 AEDController::AEDController(Ui::MainWindow& u)
-    : ui(u), currState(Default)
+    : ui(u)
 {
     battery = new Battery(u.BatteryView);
     battery->start();
@@ -82,7 +82,7 @@ void AEDController::AEDAttachedStartAnalyzing()
 
 void AEDController::electrocutePressed()
 {
-    if(currState != Shock) {
+    if(aedRing->getState() != AEDRing::Shock) {
         appendToDisplay("Shockable rhythm not yet detected. ");
         return;
     }
@@ -111,37 +111,38 @@ void AEDController::updateAEDRingState()
 {
 
     // reflect image of next step and then output it, logic will be implemented here as well, to see if they can move to the next step
-    currState = static_cast<AEDState>((currState + 1) % 7);
-    aedRing->updateImage(currState);
+    aedRing->setState(static_cast<AEDRing::AEDState>((aedRing->getState() + 1) % 7));
 
-    switch (currState)
+    aedRing->updateImage(aedRing->getState());
+
+    switch (aedRing->getState())
     {
-    case Default:
+    case AEDRing::Default:
         appendToDisplay("The current state of the AED is: Default");
         break;
         
-    case AnalyzingResponsiveness:
+    case AEDRing::AnalyzingResponsiveness:
         appendToDisplay("The current state of the AED is: Analyzing Responsiveness");
         break;
         
-    case EmergencyServices:
+    case AEDRing::EmergencyServices:
         appendToDisplay("The current state of the AED is: Emergency Services");
         break;
 
-    case Breathing:
+    case AEDRing::Breathing:
         appendToDisplay("The current state of the AED is: Breathing");
         break;
 
-    case ElectrodePlacement:
+    case AEDRing::ElectrodePlacement:
         enableAEDPlacement();
         appendToDisplay("The current state of the AED is: Electrode Placement");
         break;
 
-    case Shock:
+    case AEDRing::Shock:
           appendToDisplay("The current state of the AED is: Shock");
         break;
 
-    case PostShockCare:
+    case AEDRing::PostShockCare:
        appendToDisplay("The current state of the AED is: Post Shock Care");
         break;
     }
@@ -176,8 +177,8 @@ void AEDController::powerDown()
     {
         battery->stop();
         // this will make it seem like the battery died. The light will no longer be there, and the aed ring will reset back to default.
-        currState = Default;
-        aedRing->updateImage(currState);
+        aedRing->setState(AEDRing::Default);
+        aedRing->updateImage(aedRing->getState());
         disableAllComponents();
     }
     else

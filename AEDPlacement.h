@@ -31,7 +31,11 @@ public:
     void powerOn();
     void powerOff();
 
+    void stopFlashingAnimation();
+    void startFlashingAnimation();
+
 signals:
+    void pushTextToDisplay(QString s);
     void AEDAttachedToPatient();
     void electrocutePatientPressed();
 
@@ -52,7 +56,8 @@ private:
     QPushButton* buttonMid;
     QPushButton* buttonRight;
     bool flip = false;
-
+    bool flashAnimation = true;
+    bool power = false;
 
     AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPatient;
 
