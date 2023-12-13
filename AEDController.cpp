@@ -77,6 +77,8 @@ void AEDController::appendToDisplay(QString s)
 
 void AEDController::AEDAttachedStartAnalyzing()
 {
+    if(!hMonitor->isOn())
+        hMonitor->powerOn();
     hMonitor->startAnalyzing();
 }
 

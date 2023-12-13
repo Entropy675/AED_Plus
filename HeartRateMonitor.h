@@ -24,6 +24,7 @@ public:
     void updateHeartRate(int newHeartRateBPM);
     void startAnalyzing(int heartBPM = START_HEART_RATE);
 
+    bool isOn();
     void powerOn();
     void powerOff();
 
@@ -40,12 +41,12 @@ private:
     double heartBeatOccurring = 0;
     int bpm = 0;
     int bpmVariation = HEART_BPM_VARIATION; // increase this by a lot dynamically to simulate arrhythmia
+    bool power = false;
 
     // we can use the function sin(2*x*pi) + 0.4 for range 0 to 0.935 to simulate a bump
     // maybe sin(10*pi*x + 5.75) + 0.5 is better... looks closer to heartbeat between 0 and 0.2
     double heartBeatFunc(double x);
 
-    bool power = false;
     QLCDNumber* bpmLCD;
     QTimer* updateTimer;
     QTimer* heartRateTimer;
