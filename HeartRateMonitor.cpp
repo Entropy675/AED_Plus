@@ -5,18 +5,20 @@
 
 // an object that displays the heart rate on the screen.
 
-HeartRateMonitor::HeartRateMonitor(QWidget *parent, int width, int height)
-    : QGraphicsScene(parent), vWidth(width - 10), vHeight(height - 10)
+HeartRateMonitor::HeartRateMonitor(QWidget *parent, QLCDNumber* lcd, int width, int height)
+    : QGraphicsScene(parent), bpmLCD(lcd), vWidth(width - 10), vHeight(height - 10)
 {
     heartRateTimer = new QTimer(this);
     heartRateTimer->setSingleShot(true);
     connect(heartRateTimer, &QTimer::timeout, this, &HeartRateMonitor::heartBeat);
+    powerOn();
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &HeartRateMonitor::updatePosition);
     updateTimer->start(PING_RATE_MS);
 
     std::srand(static_cast<unsigned int>(std::time(0)));
+    powerOff();
 }
 
 HeartRateMonitor::~HeartRateMonitor()
@@ -28,6 +30,16 @@ HeartRateMonitor::~HeartRateMonitor()
     updateTimer->stop();
     delete updateTimer;
     updateTimer = nullptr;
+}
+
+void HeartRateMonitor::powerOn()
+{
+
+}
+
+void HeartRateMonitor::powerOff()
+{
+
 }
 
 void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
@@ -59,6 +71,8 @@ void HeartRateMonitor::updatePosition()
             this->removeItem(items);
     }
 
+    if(!power)
+        return;
 
     QGraphicsEllipseItem* pointItemPre = new QGraphicsEllipseItem(1, 1, 3, 4);
     QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 3, 5); // Adjust the rectangle as needed
@@ -114,6 +128,8 @@ void HeartRateMonitor::heartBeat()
     heartBeatOccurring = 1; // set to 1 to start the heart beat
     redColorShift = 255;
     int newRandomBpm = bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation);
+
     emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
+
     heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
 }

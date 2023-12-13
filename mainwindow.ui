@@ -53,6 +53,52 @@
      <string>Patient Body</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>110</y>
+      <width>191</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QGraphicsView" name="HeartRateView">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>191</width>
+       <height>171</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="bpmNumber">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>10</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Heart Rate (BPM):</string>
+     </property>
+    </widget>
+   </widget>
    <widget class="QGraphicsView" name="HeartRateView">
     <property name="geometry">
      <rect>
