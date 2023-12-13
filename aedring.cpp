@@ -13,12 +13,15 @@ AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
     originalState = new QVBoxLayout(window);
     originalState->addWidget(aedImage);
     updateButton = new QPushButton("Go To Next State", this);
-    originalState->addWidget(updateButton);
     connect(updateButton, &QPushButton::clicked, this, &AEDRing::updateButtonClicked);
-
+    originalState->addWidget(updateButton);
 
     window->setLayout(originalState);
+}
 
+AEDRing::~AEDRing()
+{
+    delete originalState;
 }
 
 

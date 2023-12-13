@@ -17,10 +17,10 @@
    <widget class="QGroupBox" name="outputTextGroupBox">
     <property name="geometry">
      <rect>
-      <x>1400</x>
+      <x>1410</x>
       <y>10</y>
-      <width>191</width>
-      <height>651</height>
+      <width>231</width>
+      <height>661</height>
      </rect>
     </property>
     <property name="title">
@@ -53,9 +53,9 @@
    <widget class="QGroupBox" name="patientBodyBox">
     <property name="geometry">
      <rect>
-      <x>1110</x>
+      <x>1120</x>
       <y>290</y>
-      <width>281</width>
+      <width>271</width>
       <height>381</height>
      </rect>
     </property>
@@ -76,8 +76,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>1190</x>
-      <y>10</y>
+      <x>1160</x>
+      <y>40</y>
       <width>191</width>
       <height>211</height>
      </rect>
@@ -119,7 +119,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="scenarioSelector">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -167,7 +167,7 @@
    <zorder>AEDRingView</zorder>
    <zorder>outputTextGroupBox</zorder>
    <zorder>patientBodyBox</zorder>
-   <zorder>comboBox</zorder>
+   <zorder>scenarioSelector</zorder>
    <zorder>label_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">

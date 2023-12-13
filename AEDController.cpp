@@ -5,19 +5,16 @@
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u), isPowerDown(true)
 {
-    battery = new Battery(u.BatteryView);
-    battery->start();
-    connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
     hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
-    u.HeartRateView->setScene(hMonitor);
-
-    updateTimer = new QTimer(this);
-    //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
-    updateTimer->start(PING_RATE_MS);
-
-
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
+    connect(u.scenarioSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AEDController::heartRhythmChanged);
+    u.HeartRateView->setScene(hMonitor);
+
+
+    //updateTimer = new QTimer(this);
+    //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
+    //updateTimer->start(PING_RATE_MS);
 
     outputText = new OutputTextbox(ui.outputTextGroupBox);
 
@@ -26,42 +23,67 @@ AEDController::AEDController(Ui::MainWindow& u)
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
     aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
+    connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
     connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
     connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
 
     QVBoxLayout* leftSideLayout = new QVBoxLayout();
 
-     // Add your new widgets or components to the left side layout
-     // For example, add a QLabel
-     QLabel* leftSideLabel = new QLabel("Left Side Content");
-     leftSideLayout->addWidget(leftSideLabel);
+    // Add your new widgets or components to the left side layout
+    // For example, add a QLabel
+    QLabel* leftSideLabel = new QLabel("Left Side Content");
+    leftSideLayout->addWidget(leftSideLabel);
 
-//       ui.centralWidget->layout()->addLayout(leftSideLayout);
+    //ui.centralWidget->layout()->addLayout(leftSideLayout);
 
-     powerButtonImageOn.load(":/assets/powerButtonOn.png");
-     powerButtonImageOff.load(":/assets/powerButtonOff.png");
-     ui.powerButton->setIcon(powerButtonImageOff);
-  
+    QPixmap powerButtonImage(":/assets/powerButton.jpg");
+    ui.powerButton->setIcon(powerButtonImage);
+    ui.powerButton->setIconSize(QSize(30, 30));
+    //=======
+    //powerButtonImageOn.load(":/assets/powerButtonOn.png");
+    //powerButtonImageOff.load(":/assets/powerButtonOff.png");
+    //ui.powerButton->setIcon(powerButtonImageOff);
+    //>>>>>>> dev
+
     aedRing = new AEDRing(ui.AEDRingView);
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
 
     battery = new Battery(u.BatteryView);
-
+    connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
     connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
-
     battery->start();
-
-
 }
 
 AEDController::~AEDController()
 {
-    updateTimer->stop();
-    delete updateTimer;
-
     delete hMonitor;
     delete outputText;
     delete aedPlacementDemo;
+}
+
+void AEDController::heartRhythmChanged(int index)
+{
+    qDebug() << "Heart rhythm changed";
+    switch(index)
+    {
+    case 0:
+        hMonitor->changeRhythm(HeartRateMonitor::PEA);
+        break;
+
+    case 1:
+        hMonitor->changeRhythm(HeartRateMonitor::ASYSTOLE);
+        break;
+
+    case 2:
+        hMonitor->changeRhythm(HeartRateMonitor::VF);
+        break;
+
+    case 3:
+        hMonitor->changeRhythm(HeartRateMonitor::VT);
+        break;
+    default:
+        return;
+    }
 }
 
 void AEDController::handleScreenResized(int w, int h)
@@ -77,6 +99,8 @@ void AEDController::appendToDisplay(QString s)
 
 void AEDController::AEDAttachedStartAnalyzing()
 {
+    if(!hMonitor->isOn())
+        hMonitor->powerOn();
     hMonitor->startAnalyzing();
 }
 
@@ -94,12 +118,6 @@ void AEDController::electrocutePressed()
     }
 }
 
-void AEDController::enableAEDPlacement(){
-    aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
-    connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
-    connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
-    connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
-}
 
 void AEDController::resetHeartbeat()
 {
@@ -134,7 +152,7 @@ void AEDController::updateAEDRingState()
         break;
 
     case AEDRing::ElectrodePlacement:
-        enableAEDPlacement();
+        aedPlacementDemo->powerOn();
         appendToDisplay("The current state of the AED is: Electrode Placement");
         break;
 
