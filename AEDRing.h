@@ -26,6 +26,8 @@ public:
 
 
     AEDRing(QGroupBox* window = nullptr);
+    ~AEDRing();
+
     void disable();
     void enable();
     void updateImage(AEDState);

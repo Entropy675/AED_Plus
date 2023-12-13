@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QRandomGenerator>
-#include <iostream>
+
 class Battery : public QGraphicsScene
 {
     Q_OBJECT

@@ -30,16 +30,20 @@ HeartRateMonitor::~HeartRateMonitor()
     updateTimer = nullptr;
 }
 
-
+bool HeartRateMonitor::isOn()
+{
+    return power;
+}
 
 void HeartRateMonitor::powerOn()
 {
-
+    power = true;
 }
 
 void HeartRateMonitor::powerOff()
 {
-
+    power = false;
+    heartRateTimer->stop();
 }
 
 void HeartRateMonitor::startAnalyzing(int heartRate)
@@ -48,6 +52,11 @@ void HeartRateMonitor::startAnalyzing(int heartRate)
     // heartRateTimer->stop();
     heartRateTimer->start(1000/(heartRate/60.0)*HEART_RATE_SCALE); // scaled down by 1.5 for fitting it all in a small space
     // qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
+}
+
+void HeartRateMonitor::changeRhythm(HeartBeatType type)
+{
+    rhythm = type;
 }
 
 // runs at PING_RATE_MS
@@ -72,11 +81,29 @@ void HeartRateMonitor::updatePosition()
 
     if(heartBeatOccurring)
     {
-        if(HEART_RATE_MON_LOG)
-            qDebug() << -150*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
-        pointItemPre->setPos(0, -50*heartBeatFunc(-heartBeatOccurring + 0.007));
-        pointItem->setPos(0, -50*heartBeatFunc(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
-        pointItemPost->setPos(0, -50*heartBeatFunc(-heartBeatOccurring - 0.007));
+        switch(rhythm)
+        {
+        case PEA:
+            pointItemPre->setPos(0, -50*heartBeatFuncPEA(-heartBeatOccurring + 0.007));
+            pointItem->setPos(0, -50*heartBeatFuncPEA(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
+            pointItemPost->setPos(0, -50*heartBeatFuncPEA(-heartBeatOccurring - 0.007));
+            break;
+        case ASYSTOLE:
+            pointItemPre->setPos(0, -50*heartBeatFuncASYS(-heartBeatOccurring + 0.007));
+            pointItem->setPos(0, -50*heartBeatFuncASYS(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
+            pointItemPost->setPos(0, -50*heartBeatFuncASYS(-heartBeatOccurring - 0.007));
+            break;
+        case VF:
+            pointItemPre->setPos(0, -50*heartBeatFuncVF(-heartBeatOccurring + 0.007));
+            pointItem->setPos(0, -50*heartBeatFuncVF(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
+            pointItemPost->setPos(0, -50*heartBeatFuncVF(-heartBeatOccurring - 0.007));
+            break;
+        case VT:
+            pointItemPre->setPos(0, -50*heartBeatFuncVT(-heartBeatOccurring + 0.007));
+            pointItem->setPos(0, -50*heartBeatFuncVT(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
+            pointItemPost->setPos(0, -50*heartBeatFuncVT(-heartBeatOccurring - 0.007));
+            break;
+        }
         heartBeatOccurring -= 0.022;
         if(heartBeatOccurring < 0)
             heartBeatOccurring = 0;
@@ -104,13 +131,44 @@ void HeartRateMonitor::updatePosition()
 
 // takes in a value from 0 to 1
 // outputs values between 1.5 and -0.5
-double HeartRateMonitor::heartBeatFunc(double x)
+double HeartRateMonitor::heartBeatFuncPEA(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
     if(HEART_RATE_MON_LOG)
         emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
     return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
 }
+
+// takes in a value from 0 to 1
+// outputs values between 1.5 and -0.5
+double HeartRateMonitor::heartBeatFuncASYS(double x)
+{
+    x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    if(HEART_RATE_MON_LOG)
+        emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
+    return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
+}
+
+// takes in a value from 0 to 1
+// outputs values between 1.5 and -0.5
+double HeartRateMonitor::heartBeatFuncVF(double x)
+{
+    x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    if(HEART_RATE_MON_LOG)
+        emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
+    return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
+}
+
+// takes in a value from 0 to 1
+// outputs values between 1.5 and -0.5
+double HeartRateMonitor::heartBeatFuncVT(double x)
+{
+    x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    if(HEART_RATE_MON_LOG)
+        emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
+    return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
+}
+
 
 // runs every beat
 void HeartRateMonitor::heartBeat()
@@ -128,7 +186,7 @@ void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
 
     int newRandomBpm = bpmLCD->intValue() + (std::rand() % (bpmVariation*2+1) - bpmVariation);
 
-    emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
+    // emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
 
     heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
 
