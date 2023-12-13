@@ -5,5 +5,6 @@
         <file>assets/placement-aed-pads2.png</file>
         <file>assets/placement-aed-pads3.png</file>
         <file>assets/placement-aed-pads4.png</file>
+        <file>assets/powerButton.jpg</file>
     </qresource>
 </RCC>

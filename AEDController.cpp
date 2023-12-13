@@ -2,31 +2,46 @@
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <QLabel>
-#include <QThread>
-
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u), currState(Default)
 {
-    hMonitor = new HeartRateMonitor(nullptr, u.HeartRateView->width(), u.HeartRateView->height());
+    battery = new Battery(u.BatteryView);
+    battery->start();
+    connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
+    hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
     u.HeartRateView->setScene(hMonitor);
-
-    // connect signal from HeartRateMonitor to this classes slot
-    connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
 
     updateTimer = new QTimer(this);
     //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
     updateTimer->start(PING_RATE_MS);
 
-    restartHeartbeat = new QTimer(this);
-    restartHeartbeat->setSingleShot(true);
-    connect(restartHeartbeat, &QTimer::timeout, this, &AEDController::resetHeartbeat);
+    connect(ui.pushButton1, &QPushButton::clicked, this, &AEDController::powerDown);
+    // connect signal from HeartRateMonitor to this classes slot
+    connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
 
-    outputText = new QTextBrowser(ui.outputTextGroupBox);
+    outputText = new OutputTextbox(ui.outputTextGroupBox);
 
     QVBoxLayout* outputBoxLayout = new QVBoxLayout();
     outputBoxLayout->addWidget(outputText);
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
+    aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
+    connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
+    connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
+
+    QVBoxLayout* leftSideLayout = new QVBoxLayout();
+
+     // Add your new widgets or components to the left side layout
+     // For example, add a QLabel
+     QLabel* leftSideLabel = new QLabel("Left Side Content");
+     leftSideLayout->addWidget(leftSideLabel);
+
+//       ui.centralWidget->layout()->addLayout(leftSideLayout);
+
+     QPixmap powerButtonImage(":/assets/powerButton.jpg");
+     ui.pushButton1->setIcon(powerButtonImage);
+     ui.pushButton1->setIconSize(QSize(30, 30));
+  
     aedRing = new AEDRing(ui.AEDRingView);
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
 
@@ -89,9 +104,7 @@ void AEDController::enableAEDPlacement(){
 void AEDController::resetHeartbeat()
 {
 
-    hMonitor->updateHeartRate(START_HEART_RATE);
-    qDebug("Patient stabalizing...");
-    appendToDisplay("Patient stabalizing...");
+    qDebug("Shock is delivered to the patient!!!!");
 }
 
 void AEDController::updateAEDRingState()
@@ -105,12 +118,12 @@ void AEDController::updateAEDRingState()
     {
     case Default:
         appendToDisplay("The current state of the AED is: Default");
-
         break;
+        
     case AnalyzingResponsiveness:
         appendToDisplay("The current state of the AED is: Analyzing Responsiveness");
         break;
-
+        
     case EmergencyServices:
         appendToDisplay("The current state of the AED is: Emergency Services");
         break;
@@ -171,5 +184,17 @@ void AEDController::powerDown()
     {
         battery->start();
         enableAllComponents();
+    }
+}
+void AEDController::batterydead()
+{
+    if (battery->getBatteryLevel() == 0) {
+        ui.HeartRateView->setVisible(false);
+        ui.pushButton1->setVisible(false);
+        ui.outputTextGroupBox->setVisible(false);
+        ui.BatteryView->setVisible(true);
+        ui.patientBodyBox->setVisible(false);
+    }else {
+        ui.pushButton1->setVisible(true);
     }
 }
