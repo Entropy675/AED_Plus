@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1116</width>
-    <height>877</height>
+    <width>1920</width>
+    <height>744</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,23 +17,36 @@
    <widget class="QGroupBox" name="outputTextGroupBox">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>50</y>
-      <width>251</width>
-      <height>771</height>
+      <x>1370</x>
+      <y>30</y>
+      <width>191</width>
+      <height>621</height>
      </rect>
     </property>
     <property name="title">
      <string/>
     </property>
    </widget>
+   <widget class="QGroupBox" name="AEDRingView">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>0</y>
+      <width>891</width>
+      <height>671</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>AEDRing</string>
+    </property>
+   </widget>
    <widget class="QGroupBox" name="patientBodyBox">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>330</y>
-      <width>291</width>
-      <height>351</height>
+      <x>1050</x>
+      <y>260</y>
+      <width>281</width>
+      <height>381</height>
      </rect>
     </property>
     <property name="title">
@@ -86,13 +99,52 @@
      </property>
     </widget>
    </widget>
+   <widget class="QGraphicsView" name="HeartRateView">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>60</y>
+      <width>221</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="powerButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>190</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Power on/off</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="BatteryView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>powerButton</zorder>
+   <zorder>BatteryView</zorder>
+   <zorder>AEDRingView</zorder>
+   <zorder>outputTextGroupBox</zorder>
+   <zorder>patientBodyBox</zorder>
+   <zorder>HeartRateView</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1116</width>
+     <width>1920</width>
      <height>21</height>
     </rect>
    </property>

@@ -5,7 +5,7 @@
 #include <QThread>
 
 AEDController::AEDController(Ui::MainWindow& u)
-    : ui(u)
+    : ui(u), currState(Default)
 {
     hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
     u.HeartRateView->setScene(hMonitor);
@@ -16,7 +16,7 @@ AEDController::AEDController(Ui::MainWindow& u)
 
 
     updateTimer = new QTimer(this);
-    connect(updateTimer, &QTimer::timeout, this, &AEDController::update);
+    //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
     updateTimer->start(PING_RATE_MS);
 
     restartHeartbeat = new QTimer(this);
@@ -29,10 +29,16 @@ AEDController::AEDController(Ui::MainWindow& u)
     outputBoxLayout->addWidget(outputText);
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
-    aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
-    connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
-    connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
-    connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
+    aedRing = new AEDRing(ui.AEDRingView);
+    connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
+
+    battery = new Battery(u.BatteryView);
+
+    connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::powerDown);
+
+    battery->start();
+
+
 }
 
 AEDController::~AEDController()
@@ -63,12 +69,23 @@ void AEDController::AEDAttachedStartAnalyzing()
 
 void AEDController::electrocutePressed()
 {
-    //if(state != Shock) // add this back later when the states work
-        //return;
-    appendToDisplay("Electricution delivered!");
-    qDebug("Shock is delivered to the patient!!!!");
-    hMonitor->updateHeartRate(300);
-    restartHeartbeat->start(1200);
+    if(currState != Shock) {
+        appendToDisplay("Shockable rhythm not yet detected. ");
+        return;
+    }
+    else {
+        appendToDisplay("Electricution delivered!");
+        qDebug("Shock is delivered to the patient!!!!");
+        hMonitor->updateHeartRate(300);
+        restartHeartbeat->start(1200);
+    }
+}
+
+void AEDController::enableAEDPlacement(){
+    aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
+    connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
+    connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
+    connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
 }
 
 void AEDController::resetHeartbeat()
@@ -79,28 +96,82 @@ void AEDController::resetHeartbeat()
     appendToDisplay("Patient stabalizing...");
 }
 
-// occurs each tick...
-void AEDController::update()
+void AEDController::updateAEDRingState()
 {
-    // qDebug() << " AED CONTROLLER: Update tick... ";
 
-    switch(state)
+    // reflect image of next step and then output it, logic will be implemented here as well, to see if they can move to the next step
+    currState = static_cast<AEDState>((currState + 1) % 7);
+    aedRing->updateImage(currState);
+
+    switch (currState)
     {
-    case PhysicalError:
+    case Default:
+        appendToDisplay("The current state of the AED is: Default");
+
         break;
-    case StandClear:
+    case AnalyzingResponsiveness:
+        appendToDisplay("The current state of the AED is: Analyzing Responsiveness");
         break;
-    case PowerOff:
+
+    case EmergencyServices:
+        appendToDisplay("The current state of the AED is: Emergency Services");
         break;
-    case Analyzing:
+
+    case Breathing:
+        appendToDisplay("The current state of the AED is: Breathing");
         break;
-    case ShockAdvised:
+
+    case ElectrodePlacement:
+        enableAEDPlacement();
+        appendToDisplay("The current state of the AED is: Electrode Placement");
         break;
+
     case Shock:
+          appendToDisplay("The current state of the AED is: Shock");
         break;
+
     case PostShockCare:
+       appendToDisplay("The current state of the AED is: Post Shock Care");
         break;
-    case ContinuedEvaluation:
-        break;
+    }
+}
+
+void AEDController::enableAllComponents()
+{
+    ui.HeartRateView->setVisible(true);
+    ui.BatteryView->setVisible(true);
+    ui.centralwidget->setVisible(true);
+    ui.patientBodyBox->setVisible(true);
+    ui.outputTextGroupBox->setVisible(true);
+    aedRing->enable();
+
+}
+
+void AEDController::disableAllComponents()
+{
+    ui.HeartRateView->setVisible(false);
+    ui.BatteryView->setVisible(false);
+    ui.patientBodyBox->setVisible(false);
+    ui.powerButton->setVisible(true);
+    ui.outputTextGroupBox->setVisible(false);
+    aedRing->disable();
+}
+void AEDController::powerDown()
+{
+    qDebug() << "Power button pressed!";
+
+    // Toggle the visibility of all components
+    if (ui.HeartRateView->isVisible())
+    {
+        battery->stop();
+        // this will make it seem like the battery died. The light will no longer be there, and the aed ring will reset back to default.
+        currState = Default;
+        aedRing->updateImage(currState);
+        disableAllComponents();
+    }
+    else
+    {
+        battery->start();
+        enableAllComponents();
     }
 }

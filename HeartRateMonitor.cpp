@@ -83,7 +83,7 @@ void HeartRateMonitor::updatePosition()
     if(heartBeatOccurring)
     {
         if(HEART_RATE_MON_LOG)
-            qDebug() << -50*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
+            qDebug() << -150*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
         pointItemPre->setPos(0, -50*heartBeatFunc(-heartBeatOccurring + 0.007));
         pointItem->setPos(0, -50*heartBeatFunc(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
         pointItemPost->setPos(0, -50*heartBeatFunc(-heartBeatOccurring - 0.007));

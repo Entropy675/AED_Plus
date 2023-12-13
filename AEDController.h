@@ -1,9 +1,11 @@
 #ifndef AEDCONTROLLER_H
 #define AEDCONTROLLER_H
 #include "./ui_mainwindow.h"
-
+#include "Battery.h"
 #include "HeartRateMonitor.h"
 #include "AEDPlacement.h"
+#include "aedring.h"
+
 
 #include <QObject>
 #include <QTextBrowser>
@@ -13,17 +15,6 @@ class AEDController : public QObject
     Q_OBJECT
 
 public:
-    enum AEDState
-    {
-        PhysicalError, // if the  AED is not on the body anymore...
-        PowerOff,
-        StandClear,
-        Analyzing,
-        ShockAdvised,
-        Shock,
-        PostShockCare, // could be a transition
-        ContinuedEvaluation // this can be the default if nothing is wrong
-    }; // we can add more/remove some as we need
 
     AEDController(Ui::MainWindow& ui);
     ~AEDController();
@@ -42,18 +33,30 @@ public slots:
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);
 
+    void updateAEDRingState();
+
 private slots:
-    void update();
     void resetHeartbeat();
     void AEDAttachedStartAnalyzing();
 
 private:
     const Ui::MainWindow& ui;
-    AEDState state;
+    AEDState currState;
 
     QTextBrowser* outputText;
     HeartRateMonitor* hMonitor;
     AEDPlacement* aedPlacementDemo;
+
+    AEDRing* aedRing;
+
+    Battery* battery;
+    bool isPowerDown;
+    void powerDown();
+    void enableAllComponents();
+    void disableAllComponents();
+
+    void enableAEDPlacement();
+    QPushButton* powerButton;
 
     QTimer* updateTimer;
     QTimer* restartHeartbeat;

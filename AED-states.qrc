@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/AED_RING_STATE0.png</file>
+        <file>assets/AED_RING_STATE1.png</file>
+        <file>assets/AED_RING_STATE2.png</file>
+        <file>assets/AED_RING_STATE3.png</file>
+        <file>assets/AED_RING_STATE4.png</file>
+	<file>assets/AED_RING_STATE5.png</file>
+	<file>assets/AED_RING_STATE6.png</file>
+    </qresource>
+</RCC>
