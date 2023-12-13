@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1572</width>
-    <height>724</height>
+    <width>1649</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QGroupBox" name="outputTextGroupBox">
     <property name="geometry">
      <rect>
-      <x>1370</x>
-      <y>20</y>
+      <x>1400</x>
+      <y>10</y>
       <width>191</width>
       <height>651</height>
      </rect>
@@ -30,7 +30,7 @@
    <widget class="QGroupBox" name="AEDRingView">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>210</x>
       <y>0</y>
       <width>891</width>
       <height>671</height>
@@ -39,11 +39,21 @@
     <property name="title">
      <string>AEDRing</string>
     </property>
+    <widget class="QPushButton" name="powerButton">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>180</y>
+       <width>141</width>
+       <height>131</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="patientBodyBox">
     <property name="geometry">
      <rect>
-      <x>1070</x>
+      <x>1110</x>
       <y>290</y>
       <width>281</width>
       <height>381</height>
@@ -66,8 +76,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>1110</x>
-      <y>20</y>
+      <x>1190</x>
+      <y>10</y>
       <width>191</width>
       <height>211</height>
      </rect>
@@ -109,49 +119,63 @@
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="powerButton">
+   <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>150</y>
-      <width>81</width>
-      <height>71</height>
+      <x>10</x>
+      <y>200</y>
+      <width>181</width>
+      <height>41</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Sinus Rhythm</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Asystole</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Ventricular Fibrillation</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Ventricular Tachycardia</string>
+     </property>
+    </item>
    </widget>
-   <widget class="QPushButton" name="pushButton1">
+   <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>240</y>
-      <width>31</width>
-      <height>31</height>
+      <x>10</x>
+      <y>180</y>
+      <width>81</width>
+      <height>16</height>
      </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">pushButton1
-qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))
-rgb(255, 190, 111)
-</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Demo Choice</string>
     </property>
    </widget>
    <zorder>groupBox</zorder>
-   <zorder>pushButton1</zorder>
-   <zorder>powerButton</zorder>
    <zorder>BatteryView</zorder>
    <zorder>AEDRingView</zorder>
    <zorder>outputTextGroupBox</zorder>
    <zorder>patientBodyBox</zorder>
+   <zorder>comboBox</zorder>
+   <zorder>label_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1572</width>
+     <width>1649</width>
      <height>21</height>
     </rect>
    </property>

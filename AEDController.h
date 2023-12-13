@@ -19,6 +19,7 @@ public:
     void powerOn();
     void powerOff();
 
+
 signals:
     // add signals here
 
@@ -26,7 +27,7 @@ public slots:
     // add slots that recieve signals here
     void appendToDisplay(QString);
     void electrocutePressed();
-    void powerDown();
+    void power();
 
     // for rescaling the layout based on new screen size...
     void handleScreenResized(int w, int h);
@@ -54,6 +55,9 @@ private:
 
     void enableAEDPlacement();
     QPushButton* powerButton;
+
+    QPixmap powerButtonImageOn;
+    QPixmap powerButtonImageOff;
 
     QTimer* updateTimer;
     QTimer* restartHeartbeat;

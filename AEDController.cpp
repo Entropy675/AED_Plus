@@ -3,7 +3,7 @@
 #include <QPixmap>
 #include <QLabel>
 AEDController::AEDController(Ui::MainWindow& u)
-    : ui(u)
+    : ui(u), isPowerDown(true)
 {
     battery = new Battery(u.BatteryView);
     battery->start();
@@ -15,7 +15,7 @@ AEDController::AEDController(Ui::MainWindow& u)
     //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
     updateTimer->start(PING_RATE_MS);
 
-    connect(ui.pushButton1, &QPushButton::clicked, this, &AEDController::powerDown);
+
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
 
@@ -38,16 +38,16 @@ AEDController::AEDController(Ui::MainWindow& u)
 
 //       ui.centralWidget->layout()->addLayout(leftSideLayout);
 
-     QPixmap powerButtonImage(":/assets/powerButton.jpg");
-     ui.pushButton1->setIcon(powerButtonImage);
-     ui.pushButton1->setIconSize(QSize(30, 30));
+     powerButtonImageOn.load(":/assets/powerButtonOn.png");
+     powerButtonImageOff.load(":/assets/powerButtonOff.png");
+     ui.powerButton->setIcon(powerButtonImageOff);
   
     aedRing = new AEDRing(ui.AEDRingView);
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
 
     battery = new Battery(u.BatteryView);
 
-    connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::powerDown);
+    connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
 
     battery->start();
 
@@ -168,21 +168,24 @@ void AEDController::disableAllComponents()
     ui.outputTextGroupBox->setVisible(false);
     aedRing->disable();
 }
-void AEDController::powerDown()
+void AEDController::power()
 {
-    qDebug() << "Power button pressed!";
+    if (isPowerDown)
+        isPowerDown = false;
 
     // Toggle the visibility of all components
-    if (ui.HeartRateView->isVisible())
+    if (isPowerDown)
     {
+        ui.powerButton->setIcon(powerButtonImageOff);
         battery->stop();
         // this will make it seem like the battery died. The light will no longer be there, and the aed ring will reset back to default.
         aedRing->setState(AEDRing::Default);
         aedRing->updateImage(aedRing->getState());
         disableAllComponents();
     }
-    else
+    else if (!isPowerDown)
     {
+        ui.powerButton->setIcon(powerButtonImageOn);
         battery->start();
         enableAllComponents();
     }
@@ -191,11 +194,13 @@ void AEDController::batterydead()
 {
     if (battery->getBatteryLevel() == 0) {
         ui.HeartRateView->setVisible(false);
-        ui.pushButton1->setVisible(false);
+        ui.powerButton->setVisible(false);
         ui.outputTextGroupBox->setVisible(false);
         ui.BatteryView->setVisible(true);
         ui.patientBodyBox->setVisible(false);
     }else {
-        ui.pushButton1->setVisible(true);
+        ui.powerButton->setVisible(true);
     }
 }
+
+

@@ -29,5 +29,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     AEDController* aed;
+
+    void setGUILayout();
 };
 #endif // MAINWINDOW_H

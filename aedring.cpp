@@ -12,7 +12,6 @@ AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
     aedImage->setScaledContents(true);
     originalState = new QVBoxLayout(window);
     originalState->addWidget(aedImage);
-
     updateButton = new QPushButton("Go To Next State", this);
     originalState->addWidget(updateButton);
     connect(updateButton, &QPushButton::clicked, this, &AEDRing::updateButtonClicked);
@@ -21,6 +20,7 @@ AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
     window->setLayout(originalState);
 
 }
+
 
 AEDRing::AEDState AEDRing::getState(){
     return currState;
