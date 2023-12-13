@@ -5,10 +5,6 @@
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u), isPowerDown(true)
 {
-    battery = new Battery(u.BatteryView);
-    connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
-    battery->start();
-
     hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
@@ -53,24 +49,13 @@ AEDController::AEDController(Ui::MainWindow& u)
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
 
     battery = new Battery(u.BatteryView);
-
+    connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
     connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
-
     battery->start();
 }
 
 AEDController::~AEDController()
 {
-    disconnect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
-    disconnect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
-    disconnect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
-
-    disconnect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
-
-    disconnect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
-
-    disconnect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
-
     delete hMonitor;
     delete outputText;
     delete aedPlacementDemo;

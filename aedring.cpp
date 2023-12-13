@@ -21,7 +21,6 @@ AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
 
 AEDRing::~AEDRing()
 {
-    disconnect(updateButton, &QPushButton::clicked, this, &AEDRing::updateButtonClicked);
     delete originalState;
 }
 

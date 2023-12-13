@@ -89,21 +89,26 @@ void HeartRateMonitor::updatePosition()
             pointItemPost->setPos(0, -50*heartBeatFuncPEA(-heartBeatOccurring - 0.007));
             break;
         case ASYSTOLE:
+
             pointItemPre->setPos(0, -50*heartBeatFuncASYS(-heartBeatOccurring + 0.007));
             pointItem->setPos(0, -50*heartBeatFuncASYS(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
             pointItemPost->setPos(0, -50*heartBeatFuncASYS(-heartBeatOccurring - 0.007));
             break;
         case VF:
+
             pointItemPre->setPos(0, -50*heartBeatFuncVF(-heartBeatOccurring + 0.007));
             pointItem->setPos(0, -50*heartBeatFuncVF(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
             pointItemPost->setPos(0, -50*heartBeatFuncVF(-heartBeatOccurring - 0.007));
             break;
         case VT:
+
             pointItemPre->setPos(0, -50*heartBeatFuncVT(-heartBeatOccurring + 0.007));
             pointItem->setPos(0, -50*heartBeatFuncVT(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
             pointItemPost->setPos(0, -50*heartBeatFuncVT(-heartBeatOccurring - 0.007));
             break;
         }
+
+
         heartBeatOccurring -= 0.022;
         if(heartBeatOccurring < 0)
             heartBeatOccurring = 0;
@@ -126,6 +131,11 @@ void HeartRateMonitor::updatePosition()
         pointItem2->setBrush(QColor(110, 145, 145)); // Set the color of the point
         pointItem2->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
         this->addItem(pointItem2);
+    }
+
+    if(heartBeatOccurring < 0.01 && rhythm == VT)
+    {
+        heartBeatOccurring = 1;
     }
 }
 
@@ -165,15 +175,16 @@ double HeartRateMonitor::heartBeatFuncVT(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
     if(HEART_RATE_MON_LOG)
-        emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
-    return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
+        emit pushTextToDisplay(QString::number((std::sin(x * 3.14 * 2 + 5))/3 + 0.5) + " ");
+    return (std::sin(x * 3.14 * 20 + 5))/3 + 0.5;
 }
 
 
 // runs every beat
 void HeartRateMonitor::heartBeat()
 {
-    heartBeatOccurring = 1; // set to 1 to start the heart beat
+    if(rhythm != VT)
+        heartBeatOccurring = 1; // set to 1 to start the heart beat
     redColorShift = 255;
 
 }
