@@ -1,5 +1,6 @@
 #include "AEDPlacement.h"
 #include "defs.h"
+#include <QDebug>
 
 
 AEDPlacement::AEDPlacement(QGroupBox* g)
@@ -37,31 +38,15 @@ AEDPlacement::AEDPlacement(QGroupBox* g)
 }
 
 
-
-void AEDPlacement::stopFlashingAnimation()
-{
-    flashAnimation = false;
-}
-
-void AEDPlacement::startFlashingAnimation()
-{
-    flashAnimation = true;
-}
-
 void AEDPlacement::loopAnimationTillButtonPress()
 {
     // flash the current image between currentState and nextState
     // after some callback signal confirms the state change, stop and switch state
-    if(flashAnimation)
-    {
-        if(flip)
-            aedImage->setPixmap(aedPadsImages[currentState]);
-        else
-            aedImage->setPixmap(aedPadsImages[nextState]);
-        flip = !flip;
-    }
-    else
+    if(flip)
         aedImage->setPixmap(aedPadsImages[currentState]);
+    else
+        aedImage->setPixmap(aedPadsImages[nextState]);
+    flip = !flip;
 }
 
 void AEDPlacement::placePadLeft()
