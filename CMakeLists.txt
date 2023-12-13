@@ -26,7 +26,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         AEDController.h AEDController.cpp
         HeartRateMonitor.h
         HeartRateMonitor.cpp
-
+        OutputTextbox.h OutputTextbox.cpp
         defs.h
         placement-aed-pads.qrc
         AEDPlacement.h
@@ -37,6 +37,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         AEDRing.h aedring.cpp
         Battery.h
         Battery.cpp
+
 
 
     )

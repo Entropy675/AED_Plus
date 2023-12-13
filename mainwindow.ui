@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>744</height>
+    <width>1649</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QGroupBox" name="outputTextGroupBox">
     <property name="geometry">
      <rect>
-      <x>1370</x>
-      <y>30</y>
+      <x>1400</x>
+      <y>10</y>
       <width>191</width>
-      <height>621</height>
+      <height>651</height>
      </rect>
     </property>
     <property name="title">
@@ -30,7 +30,7 @@
    <widget class="QGroupBox" name="AEDRingView">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>210</x>
       <y>0</y>
       <width>891</width>
       <height>671</height>
@@ -39,12 +39,22 @@
     <property name="title">
      <string>AEDRing</string>
     </property>
+    <widget class="QPushButton" name="powerButton">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>180</y>
+       <width>141</width>
+       <height>131</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="patientBodyBox">
     <property name="geometry">
      <rect>
-      <x>1050</x>
-      <y>260</y>
+      <x>1110</x>
+      <y>290</y>
       <width>281</width>
       <height>381</height>
      </rect>
@@ -53,11 +63,21 @@
      <string>Patient Body</string>
     </property>
    </widget>
+   <widget class="QGraphicsView" name="BatteryView">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>60</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+   </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>110</y>
+      <x>1190</x>
+      <y>10</y>
       <width>191</width>
       <height>211</height>
      </rect>
@@ -99,52 +119,63 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGraphicsView" name="HeartRateView">
-    <property name="geometry">
-     <rect>
-      <x>1080</x>
-      <y>60</y>
-      <width>221</width>
-      <height>171</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="powerButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>190</y>
-      <width>81</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Power on/off</string>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="BatteryView">
+   <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>120</y>
-      <width>101</width>
-      <height>51</height>
+      <y>200</y>
+      <width>181</width>
+      <height>41</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Sinus Rhythm</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Asystole</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Ventricular Fibrillation</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Ventricular Tachycardia</string>
+     </property>
+    </item>
    </widget>
-   <zorder>powerButton</zorder>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Demo Choice</string>
+    </property>
+   </widget>
+   <zorder>groupBox</zorder>
    <zorder>BatteryView</zorder>
    <zorder>AEDRingView</zorder>
    <zorder>outputTextGroupBox</zorder>
    <zorder>patientBodyBox</zorder>
-   <zorder>HeartRateView</zorder>
+   <zorder>comboBox</zorder>
+   <zorder>label_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1920</width>
+     <width>1649</width>
      <height>21</height>
     </rect>
    </property>
