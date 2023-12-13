@@ -53,7 +53,6 @@ private:
     void enableAllComponents();
     void disableAllComponents();
 
-    void enableAEDPlacement();
     QPushButton* powerButton;
 
     QPixmap powerButtonImageOn;

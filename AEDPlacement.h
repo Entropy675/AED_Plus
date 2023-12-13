@@ -30,6 +30,7 @@ public:
 
     void powerOn();
     void powerOff();
+    bool isOn();
 
     void stopFlashingAnimation();
     void startFlashingAnimation();
@@ -59,7 +60,11 @@ private:
     bool flashAnimation = true;
     bool power = false;
 
-    AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPatient;
+    void startButtonPlacement();
+    void leftRightButtonsPlacement();
+    void removeAllButtons();
+
+    AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPads;
 
     QTimer* flashTimer; // activate to flash till button
 };
