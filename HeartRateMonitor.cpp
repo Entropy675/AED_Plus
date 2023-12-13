@@ -183,7 +183,8 @@ double HeartRateMonitor::heartBeatFuncVT(double x)
 // runs every beat
 void HeartRateMonitor::heartBeat()
 {
-    heartBeatOccurring = 1; // set to 1 to start the heart beat
+    if(rhythm != VT)
+        heartBeatOccurring = 1; // set to 1 to start the heart beat
     redColorShift = 255;
 
 }
