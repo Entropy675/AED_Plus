@@ -49,6 +49,7 @@ private:
     QPixmap aedStateImages[7];
     QPushButton *updateButton;
 
+
 };
 
 #endif // AEDRING_H
