@@ -61,16 +61,6 @@ AEDController::AEDController(Ui::MainWindow& u)
 
 AEDController::~AEDController()
 {
-    disconnect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
-    disconnect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
-    disconnect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
-
-    disconnect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
-
-    disconnect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
-
-    disconnect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
-
     delete hMonitor;
     delete outputText;
     delete aedPlacementDemo;
