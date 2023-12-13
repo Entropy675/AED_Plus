@@ -3,15 +3,20 @@
 
 // an object that displays the heart rate on the screen.
 
-HeartRateMonitor::HeartRateMonitor(QWidget *parent, int width, int height)
-    : QGraphicsScene(parent->parentWidget()), vWidth(width - 10), vHeight(height - 10)
+
+HeartRateMonitor::HeartRateMonitor(QWidget *parent, QLCDNumber* lcd, int width, int height)
+    : QGraphicsScene(parent), bpmLCD(lcd), vWidth(width - 10), vHeight(height - 10)
 {
     heartRateTimer = new QTimer(this);
     connect(heartRateTimer, &QTimer::timeout, this, &HeartRateMonitor::heartBeat);
+    powerOn();
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &HeartRateMonitor::updatePosition);
     updateTimer->start(PING_RATE_MS);
+
+    std::srand(static_cast<unsigned int>(std::time(0)));
+    powerOff();
 }
 
 HeartRateMonitor::~HeartRateMonitor()
@@ -25,7 +30,30 @@ HeartRateMonitor::~HeartRateMonitor()
     updateTimer = nullptr;
 }
 
-void HeartRateMonitor::startAnalyzing(double heartRate)
+
+
+void HeartRateMonitor::powerOn()
+{
+
+}
+
+void HeartRateMonitor::powerOff()
+{
+
+}
+
+void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
+{
+    heartRateTimer->stop();
+    if(!newHeartRateBPM)
+        return;
+
+    bpm = newHeartRateBPM;
+    heartRateTimer->start(1000/(newHeartRateBPM/60.0)*HEART_RATE_SCALE); // 60 seconds in a minute, 1000ms ;) (scaled it by 1.5 just for display purposes)
+}
+
+void HeartRateMonitor::startAnalyzing(int heartRate)
+
 {
     // heartRateTimer->stop();
     heartRateTimer->start(1000/(heartRate/60.0)*HEART_RATE_SCALE); // scaled down by 1.5 for fitting it all in a small space
@@ -43,6 +71,8 @@ void HeartRateMonitor::updatePosition()
             this->removeItem(items);
     }
 
+    if(!power)
+        return;
 
     QGraphicsEllipseItem* pointItemPre = new QGraphicsEllipseItem(1, 1, 3, 4); // Adjust the rectangle as needed
     QGraphicsEllipseItem* pointItem = new QGraphicsEllipseItem(1, 1, 3, 5); // Adjust the rectangle as needed
@@ -53,7 +83,7 @@ void HeartRateMonitor::updatePosition()
     if(heartBeatOccurring)
     {
         if(HEART_RATE_MON_LOG)
-            qDebug() << -50*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
+            qDebug() << -150*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
         pointItemPre->setPos(0, -50*heartBeatFunc(-heartBeatOccurring + 0.007));
         pointItem->setPos(0, -50*heartBeatFunc(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
         pointItemPost->setPos(0, -50*heartBeatFunc(-heartBeatOccurring - 0.007));
@@ -97,6 +127,7 @@ void HeartRateMonitor::heartBeat()
 {
     heartBeatOccurring = 1; // set to 1 to start the heart beat
     redColorShift = 255;
+
 }
 
 void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
@@ -104,4 +135,11 @@ void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
     heartRateTimer->stop();
     if(newHeartRateBPM)
         heartRateTimer->start(1000/(newHeartRateBPM/60.0)*HEART_RATE_SCALE); // 60 seconds in a minute, 1000ms ;) (scaled it by 1.5 just for display purposes)
+
+    int newRandomBpm = bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation);
+
+    emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
+
+    heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
+
 }

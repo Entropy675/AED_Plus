@@ -28,6 +28,9 @@ public:
     AEDPlacement(QGroupBox* g = nullptr);
     bool isDone();
 
+    void powerOn();
+    void powerOff();
+
 signals:
     void AEDAttachedToPatient();
     void electrocutePatientPressed();
@@ -50,7 +53,8 @@ private:
     QPushButton* buttonRight;
     bool flip = false;
 
-    AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPads;
+
+    AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPatient;
 
     QTimer* flashTimer; // activate to flash till button
 };

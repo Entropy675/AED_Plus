@@ -31,6 +31,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         placement-aed-pads.qrc
         AEDPlacement.h
         AEDPlacement.cpp
+        AEDRing.h
+        AEDRing.h
+        AED-states.qrc
+        AEDRing.h aedring.cpp
+        Battery.h
+        Battery.cpp
+
 
     )
 # Define target properties for Android with Qt 6 as:

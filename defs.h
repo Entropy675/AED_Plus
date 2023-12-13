@@ -14,5 +14,15 @@
 #define START_HEART_RATE        75
 
 
+enum AEDState
+{ Default,
+  AnalyzingResponsiveness,
+  EmergencyServices,
+  Breathing, // use lid to put behind victims shoulders to maintain an effective airway (dont use support if spinal injury)
+  ElectrodePlacement,
+  Shock, // shock is also HeartRythmAnalysis,this is where it will be judged
+  PostShockCare, // bunched with continued evaluation
+}; // we can add more/remove some as we need
+
 
 #endif // DEFS_H
