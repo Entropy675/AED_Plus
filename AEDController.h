@@ -58,7 +58,6 @@ private:
     QPixmap powerButtonImageOn;
     QPixmap powerButtonImageOff;
 
-    QTimer* updateTimer;
     QTimer* restartHeartbeat;
 };
 

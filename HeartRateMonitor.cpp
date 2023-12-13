@@ -54,6 +54,11 @@ void HeartRateMonitor::startAnalyzing(int heartRate)
     // qDebug() << 1000/(startHeartRate/60.0) << " " << startHeartRate;
 }
 
+void HeartRateMonitor::changeRhythm(HeartBeatType type)
+{
+
+}
+
 // runs at PING_RATE_MS
 void HeartRateMonitor::updatePosition()
 {
@@ -77,10 +82,10 @@ void HeartRateMonitor::updatePosition()
     if(heartBeatOccurring)
     {
         if(HEART_RATE_MON_LOG)
-            qDebug() << -150*heartBeatFunc(-heartBeatOccurring) << " " << heartBeatOccurring;
-        pointItemPre->setPos(0, -50*heartBeatFunc(-heartBeatOccurring + 0.007));
-        pointItem->setPos(0, -50*heartBeatFunc(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
-        pointItemPost->setPos(0, -50*heartBeatFunc(-heartBeatOccurring - 0.007));
+            qDebug() << -150*heartBeatFuncPEA(-heartBeatOccurring) << " " << heartBeatOccurring;
+        pointItemPre->setPos(0, -50*heartBeatFuncPEA(-heartBeatOccurring + 0.007));
+        pointItem->setPos(0, -50*heartBeatFuncPEA(-heartBeatOccurring)); // -50 is scale, its negative because think of what we are drawing of as a reflection...
+        pointItemPost->setPos(0, -50*heartBeatFuncPEA(-heartBeatOccurring - 0.007));
         heartBeatOccurring -= 0.022;
         if(heartBeatOccurring < 0)
             heartBeatOccurring = 0;
@@ -108,7 +113,7 @@ void HeartRateMonitor::updatePosition()
 
 // takes in a value from 0 to 1
 // outputs values between 1.5 and -0.5
-double HeartRateMonitor::heartBeatFunc(double x)
+double HeartRateMonitor::heartBeatFuncPEA(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
     if(HEART_RATE_MON_LOG)

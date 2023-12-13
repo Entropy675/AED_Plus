@@ -47,9 +47,9 @@ void Battery::updateBatteryLevel()
 
     if (batteryLevel == 0) {
         stop();
-    }else if (batteryLevel == 20)(
-        std::cout << "Battery Level is " << batteryLevel <<"% " << "please charge or replace the battery" << std::endl
-                     );
+    }else if (batteryLevel == 20){
+        qDebug() << "Battery Level is " << batteryLevel <<"% " << "please charge or replace the battery";
+    }
 
 }
 

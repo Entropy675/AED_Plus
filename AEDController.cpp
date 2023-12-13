@@ -6,18 +6,18 @@ AEDController::AEDController(Ui::MainWindow& u)
     : ui(u), isPowerDown(true)
 {
     battery = new Battery(u.BatteryView);
-    battery->start();
     connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
+    battery->start();
+
     hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
-    u.HeartRateView->setScene(hMonitor);
-
-    updateTimer = new QTimer(this);
-    //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
-    updateTimer->start(PING_RATE_MS);
-
-
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
+
+    u.HeartRateView->setScene(hMonitor);
+
+    //updateTimer = new QTimer(this);
+    //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
+    //updateTimer->start(PING_RATE_MS);
 
     outputText = new OutputTextbox(ui.outputTextGroupBox);
 
@@ -40,14 +40,14 @@ AEDController::AEDController(Ui::MainWindow& u)
     //ui.centralWidget->layout()->addLayout(leftSideLayout);
 
     QPixmap powerButtonImage(":/assets/powerButton.jpg");
-    ui.pushButton1->setIcon(powerButtonImage);
-    ui.pushButton1->setIconSize(QSize(30, 30));
+    ui.powerButton->setIcon(powerButtonImage);
+    ui.powerButton->setIconSize(QSize(30, 30));
     //=======
     //powerButtonImageOn.load(":/assets/powerButtonOn.png");
     //powerButtonImageOff.load(":/assets/powerButtonOff.png");
     //ui.powerButton->setIcon(powerButtonImageOff);
     //>>>>>>> dev
-  
+
     aedRing = new AEDRing(ui.AEDRingView);
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
 
@@ -56,14 +56,19 @@ AEDController::AEDController(Ui::MainWindow& u)
     connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
 
     battery->start();
-
-
 }
 
 AEDController::~AEDController()
 {
-    updateTimer->stop();
-    delete updateTimer;
+    disconnect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
+    disconnect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
+    disconnect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
+
+    disconnect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
+
+    disconnect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
+
+    disconnect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
 
     delete hMonitor;
     delete outputText;
