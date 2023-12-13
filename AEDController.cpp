@@ -32,7 +32,7 @@ AEDController::AEDController(Ui::MainWindow& u)
 
     battery = new Battery(u.BatteryView);
 
-    connect(ui.pushButton1, &QPushButton::clicked, this, &AEDController::powerDown);
+    connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::powerDown);
 
     battery->start();
 
@@ -150,7 +150,7 @@ void AEDController::disableAllComponents()
     ui.HeartRateView->setVisible(false);
     ui.BatteryView->setVisible(false);
     ui.patientBodyBox->setVisible(false);
-    ui.pushButton1->setVisible(true);
+    ui.powerButton->setVisible(true);
     ui.outputTextGroupBox->setVisible(false);
     aedRing->disable();
 }

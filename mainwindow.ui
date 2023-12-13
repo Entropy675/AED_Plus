@@ -63,7 +63,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton1">
+   <widget class="QPushButton" name="powerButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -86,7 +86,7 @@
      </rect>
     </property>
    </widget>
-   <zorder>pushButton1</zorder>
+   <zorder>powerButton</zorder>
    <zorder>BatteryView</zorder>
    <zorder>AEDRingView</zorder>
    <zorder>outputTextGroupBox</zorder>

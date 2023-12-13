@@ -22,8 +22,9 @@ signals:
 protected:
     void resizeEvent(QResizeEvent* event) override;
 
+
 private slots:
-    void on_pushButton1_clicked();
+    void on_powerButton_clicked();
 
 private:
     Ui::MainWindow *ui;

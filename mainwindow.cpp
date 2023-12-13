@@ -25,3 +25,9 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     QMainWindow::resizeEvent(event); // base implementation
     emit screenResized(event->size().width(), event->size().height()); // Emit to ec with new screen dimensions
 }
+
+void MainWindow::on_powerButton_clicked()
+{
+
+}
+
