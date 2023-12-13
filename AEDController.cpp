@@ -5,10 +5,6 @@
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u), isPowerDown(true)
 {
-    battery = new Battery(u.BatteryView);
-    connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
-    battery->start();
-
     hMonitor = new HeartRateMonitor(nullptr, u.bpmNumber, u.HeartRateView->width(), u.HeartRateView->height());
     // connect signal from HeartRateMonitor to this classes slot
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
@@ -53,9 +49,8 @@ AEDController::AEDController(Ui::MainWindow& u)
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
 
     battery = new Battery(u.BatteryView);
-
+    connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
     connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
-
     battery->start();
 }
 
