@@ -26,21 +26,22 @@ AEDController::AEDController(Ui::MainWindow& u)
     ui.outputTextGroupBox->setLayout(outputBoxLayout);
 
     aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
+    connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
     connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
     connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
 
     QVBoxLayout* leftSideLayout = new QVBoxLayout();
 
-     // Add your new widgets or components to the left side layout
-     // For example, add a QLabel
-     QLabel* leftSideLabel = new QLabel("Left Side Content");
-     leftSideLayout->addWidget(leftSideLabel);
+    // Add your new widgets or components to the left side layout
+    // For example, add a QLabel
+    QLabel* leftSideLabel = new QLabel("Left Side Content");
+    leftSideLayout->addWidget(leftSideLabel);
 
-//       ui.centralWidget->layout()->addLayout(leftSideLayout);
+    //ui.centralWidget->layout()->addLayout(leftSideLayout);
 
-     QPixmap powerButtonImage(":/assets/powerButton.jpg");
-     ui.pushButton1->setIcon(powerButtonImage);
-     ui.pushButton1->setIconSize(QSize(30, 30));
+    QPixmap powerButtonImage(":/assets/powerButton.jpg");
+    ui.pushButton1->setIcon(powerButtonImage);
+    ui.pushButton1->setIconSize(QSize(30, 30));
   
     aedRing = new AEDRing(ui.AEDRingView);
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
@@ -96,12 +97,6 @@ void AEDController::electrocutePressed()
     }
 }
 
-void AEDController::enableAEDPlacement(){
-    aedPlacementDemo = new AEDPlacement(ui.patientBodyBox);
-    connect(aedPlacementDemo, &AEDPlacement::pushTextToDisplay, this, &AEDController::appendToDisplay);
-    connect(aedPlacementDemo, &AEDPlacement::AEDAttachedToPatient, this, &AEDController::AEDAttachedStartAnalyzing);
-    connect(aedPlacementDemo, &AEDPlacement::electrocutePatientPressed, this, &AEDController::electrocutePressed);
-}
 
 void AEDController::resetHeartbeat()
 {
@@ -136,7 +131,7 @@ void AEDController::updateAEDRingState()
         break;
 
     case AEDRing::ElectrodePlacement:
-        enableAEDPlacement();
+        aedPlacementDemo->powerOn();
         appendToDisplay("The current state of the AED is: Electrode Placement");
         break;
 

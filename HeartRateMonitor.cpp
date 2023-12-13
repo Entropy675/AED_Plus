@@ -30,7 +30,6 @@ HeartRateMonitor::~HeartRateMonitor()
     updateTimer = nullptr;
 }
 
-
 bool HeartRateMonitor::isOn()
 {
     return power;
