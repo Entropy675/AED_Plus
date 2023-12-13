@@ -28,6 +28,9 @@ public:
     AEDController(Ui::MainWindow& ui);
     ~AEDController();
 
+    void powerOn();
+    void powerOff();
+
 signals:
     // add signals here
 

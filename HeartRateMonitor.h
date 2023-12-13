@@ -24,6 +24,9 @@ public:
     void updateHeartRate(int newHeartRateBPM);
     void startAnalyzing(int heartBPM = START_HEART_RATE);
 
+    void powerOn();
+    void powerOff();
+
 signals:
     void pushTextToDisplay(QString s);
 

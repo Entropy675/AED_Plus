@@ -33,6 +33,7 @@ AEDPlacement::AEDPlacement(QGroupBox* g)
     flashTimer = new QTimer(this);
     connect(flashTimer, &QTimer::timeout, this, &AEDPlacement::loopAnimationTillButtonPress);
     flashTimer->start(AED_DEMO_LOOP_RATE_MS);
+    powerOff();
 }
 
 
@@ -76,6 +77,16 @@ void AEDPlacement::placePadLeft()
 
     currentState = nextState;
     nextState = PadBoth;
+}
+
+void AEDPlacement::powerOn()
+{
+    power = true;
+}
+
+void AEDPlacement::powerOff()
+{
+    power = false;
 }
 
 void AEDPlacement::attachedToPatient()
