@@ -50,6 +50,35 @@
      <string>Patient Body</string>
     </property>
    </widget>
+   <widget class="QGraphicsView" name="BatteryView">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton1">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>160</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">pushButton1
+qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))
+rgb(255, 190, 111)
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -57,7 +86,7 @@
      <x>0</x>
      <y>0</y>
      <width>1116</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
