@@ -32,14 +32,12 @@ void MainWindow::setGUILayout() {
     QVBoxLayout* verticalLayout = new QVBoxLayout(ui->centralwidget);
     QHBoxLayout* horizontalLayout = new QHBoxLayout();
 
-    // Add a stretchable space before the button to center it vertically
     verticalLayout->addStretch();
 
-    // Add the horizontal layout to center the button horizontally
     verticalLayout->addLayout(horizontalLayout);
 
 
-    ui->powerButton->setIconSize(ui->powerButton->icon().actualSize(QSize(115, 115)));
+    ui->powerButton->setIconSize(ui->powerButton->icon().actualSize(QSize(140, 140)));
 
 
     ui->powerButton->setFixedSize(ui->powerButton->iconSize());
@@ -50,15 +48,15 @@ void MainWindow::setGUILayout() {
 
     verticalLayout->addStretch();
 
-    horizontalLayout->addSpacerItem(new QSpacerItem(315, 0, QSizePolicy::Fixed, QSizePolicy::Minimum));
-    verticalLayout->addSpacerItem(new QSpacerItem(0, 85, QSizePolicy::Fixed, QSizePolicy::Minimum));
+    horizontalLayout->addSpacerItem(new QSpacerItem(320, 0, QSizePolicy::Fixed, QSizePolicy::Minimum));
+    verticalLayout->addSpacerItem(new QSpacerItem(0, 90, QSizePolicy::Fixed, QSizePolicy::Minimum));
 
     ui->centralwidget->setLayout(verticalLayout);
 
 
     this->setCentralWidget(ui->centralwidget);
 
-    // Show the main window
+
     this->show();
 }
 

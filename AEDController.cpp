@@ -172,10 +172,14 @@ void AEDController::power()
 {
     if (isPowerDown)
         isPowerDown = false;
+    else {
+         isPowerDown = true;
+    }
 
     // Toggle the visibility of all components
     if (isPowerDown)
     {
+        appendToDisplay("Power off");
         ui.powerButton->setIcon(powerButtonImageOff);
         battery->stop();
         // this will make it seem like the battery died. The light will no longer be there, and the aed ring will reset back to default.
@@ -185,6 +189,7 @@ void AEDController::power()
     }
     else if (!isPowerDown)
     {
+        appendToDisplay("Power on");
         ui.powerButton->setIcon(powerButtonImageOn);
         battery->start();
         enableAllComponents();
