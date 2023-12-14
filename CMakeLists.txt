@@ -38,6 +38,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Battery.h
         Battery.cpp
         AEDRing.cpp
+        AEDCompressionBar.h
+        AEDCompressionBar.cpp
+        AEDCPR.qrc
+
+
+
 
 
 

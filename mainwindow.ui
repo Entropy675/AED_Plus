@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1649</width>
-    <height>718</height>
+    <height>879</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,8 +53,8 @@
    <widget class="QGroupBox" name="patientBodyBox">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>290</y>
+      <x>1110</x>
+      <y>280</y>
       <width>271</width>
       <height>381</height>
      </rect>
@@ -76,7 +76,7 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1110</x>
       <y>40</y>
       <width>191</width>
       <height>211</height>
@@ -104,6 +104,17 @@
        <height>23</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 700 italic 9pt &quot;Segoe UI&quot;;</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">
@@ -119,7 +130,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QComboBox" name="scenarioSelector">
+   <widget class="QComboBox" name="heartRhythmSelector">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -162,13 +173,52 @@
      <string>Demo Choice</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="cprBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>260</y>
+      <width>181</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>399</width>
+      <height>500</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Chest Compression</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cprButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>650</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CPR</string>
+    </property>
+   </widget>
    <zorder>groupBox</zorder>
    <zorder>BatteryView</zorder>
    <zorder>AEDRingView</zorder>
    <zorder>outputTextGroupBox</zorder>
    <zorder>patientBodyBox</zorder>
-   <zorder>scenarioSelector</zorder>
+   <zorder>heartRhythmSelector</zorder>
    <zorder>label_2</zorder>
+   <zorder>cprBox</zorder>
+   <zorder>cprButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

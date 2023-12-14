@@ -1,6 +1,6 @@
 #include "AEDRing.h"
 
-AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
+AEDRing::AEDRing(QGroupBox *view) : window(view)
 {
     for (int i = 0; i < 7; ++i) {
         QString imagePath = QString(":/assets/AED_RING_STATE%1.png").arg(i);
@@ -8,15 +8,16 @@ AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
     }
 
     aedImage = new QLabel();
-    aedImage->setPixmap(aedStateImages[0]);
     aedImage->setScaledContents(true);
     originalState = new QVBoxLayout(window);
     originalState->addWidget(aedImage);
-    updateButton = new QPushButton("Go To Next State", this);
+    updateButton = new QPushButton("Go to Next State", this);
     connect(updateButton, &QPushButton::clicked, this, &AEDRing::updateButtonClicked);
     originalState->addWidget(updateButton);
 
     window->setLayout(originalState);
+
+    disable();
 }
 
 AEDRing::~AEDRing()
@@ -24,14 +25,6 @@ AEDRing::~AEDRing()
     delete originalState;
 }
 
-
-AEDRing::AEDState AEDRing::getState(){
-    return currState;
-}
-
-void AEDRing::setState(AEDRing::AEDState stateToSetTo) {
-    currState = stateToSetTo;
-}
 
 void AEDRing::updateButtonClicked() {
     emit updateAEDState();
@@ -44,8 +37,20 @@ void AEDRing::updateImage(AEDState state) {
 
 void AEDRing::disable() {
     updateButton->setDisabled(true);
+    currState = Default;
+    updateImage(currState);
 }
 
 void AEDRing::enable() {
     updateButton->setDisabled(false);
+    currState = AnalyzingResponsiveness;
+    updateImage(currState);
+}
+
+AEDRing::AEDState AEDRing::getState() {
+    return currState;
+}
+
+void AEDRing::setState(AEDState stateToChangeTo) {
+    currState = stateToChangeTo;
 }

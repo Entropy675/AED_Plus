@@ -35,6 +35,11 @@ public:
     void stopFlashingAnimation();
     void startFlashingAnimation();
 
+    void AEDReadyToBeAttached();
+    void ShockButtonReady();
+    void ShockButtonDisabled();
+    bool AEDIsConnected();
+
 signals:
     void pushTextToDisplay(QString s);
     void AEDAttachedToPatient();
@@ -53,17 +58,23 @@ private:
     QPixmap aedPadsImages[5];
     QVBoxLayout* patientBodyLayout;
     QHBoxLayout* HButtonBox;
+    QWidget* leftRightButtonWidget;
+    QHBoxLayout * leftRightButtonLayout;
+    QWidget* shockContainer;
     QPushButton* buttonLeft;
     QPushButton* buttonMid;
+    QPushButton* buttonShock;
     QPushButton* buttonRight;
     bool flip = false;
     bool flashAnimation = true;
     bool power = false;
+    bool padsAreAttached = false;
+
 
     void startButtonPlacement();
     void leftRightButtonsPlacement();
-    void removeAllButtons();
 
+    int index;
     AEDPlacementState currentState = AEDPlacementState::NoPatient, nextState = AEDPlacementState::NoPads;
 
     QTimer* flashTimer; // activate to flash till button

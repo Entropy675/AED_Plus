@@ -127,7 +127,22 @@ void HeartRateMonitor::updatePosition()
 
     if(((int)(heartBeatOccurring*100) % 10) == 0 && heartBeatOccurring)
     {
-        bpmLCD->display(bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation));
+
+        switch(rhythm)
+        {
+        case PEA:
+            bpmLCD->display(bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation));
+            break;
+        case ASYSTOLE:
+            bpmLCD->display(0);
+            break;
+        case VF:
+             bpmLCD->display(bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation) + 80);
+            break;
+        case VT:
+            bpmLCD->display(bpm + (std::rand() % (bpmVariation*2+1) - bpmVariation) + 95);
+            break;
+        }
         QGraphicsEllipseItem* pointItem2 = new QGraphicsEllipseItem(1, 1, 3, 4); // Adjust the rectangle as needed
         pointItem2->setBrush(QColor(110, 145, 145)); // Set the color of the point
         pointItem2->setPen(Qt::NoPen); // Set the pen (outline) to be transparent
