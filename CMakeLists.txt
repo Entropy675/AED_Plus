@@ -34,9 +34,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         AEDRing.h
         AEDRing.h
         AED-states.qrc
-        AEDRing.h aedring.cpp
+        AEDRing.h
         Battery.h
         Battery.cpp
+        AEDRing.cpp
 
 
 
