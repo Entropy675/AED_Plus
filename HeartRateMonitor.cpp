@@ -133,9 +133,14 @@ void HeartRateMonitor::updatePosition()
         this->addItem(pointItem2);
     }
 
-    if(heartBeatOccurring < 0.01 && rhythm == VT)
+    qDebug() << heartBeatOccurring;
+    if(heartBeatOccurring < 0.01 && (rhythm != PEA) && (rhythm != PEA))
     {
-        heartBeatOccurring = 1;
+        qDebug() << heartBeatOccurring << " rhythm: " << rhythm;
+        if(rhythm == 2)
+            heartBeatOccurring = 1000;
+        else
+            heartBeatOccurring = 1;
     }
 }
 
@@ -153,10 +158,18 @@ double HeartRateMonitor::heartBeatFuncPEA(double x)
 // outputs values between 1.5 and -0.5
 double HeartRateMonitor::heartBeatFuncASYS(double x)
 {
+    using namespace std;
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    double out = 0.6 * (
+                     (1.0/24.0) * sin(x * 3.14 * 10 + 2) +
+                     0.6 +
+                     (1.0/24.0) * sin(x * 20 + 5.8) +
+                     (1.0/24.0) * cos(x * 27) +
+                     (1.0/65.0) * cos(x * 121 - 15));
+
     if(HEART_RATE_MON_LOG)
-        emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
-    return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
+        emit pushTextToDisplay(QString::number(out) + " ");
+    return out/2;
 }
 
 // takes in a value from 0 to 1
@@ -164,9 +177,15 @@ double HeartRateMonitor::heartBeatFuncASYS(double x)
 double HeartRateMonitor::heartBeatFuncVF(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
+    double out = (1.0/7.0) * sin(x * 3.14 * 10 + 2) +
+                 0.6 +
+                 (1.0/12.0) * sin(x * 20 + 5.8) +
+                 (1.0/12.0) * cos(x * 27) +
+                 (1.0/20.0) * cos(x * 121 - 15);
+
     if(HEART_RATE_MON_LOG)
-        emit pushTextToDisplay(QString::number(std::sin(x * 3.14 * 10 + 5.759) + 0.5) + " ");
-    return std::sin(x * 3.14 * 10 + 5.759) + 0.5;
+        emit pushTextToDisplay(QString::number(out) + " ");
+    return out;
 }
 
 // takes in a value from 0 to 1
@@ -175,15 +194,15 @@ double HeartRateMonitor::heartBeatFuncVT(double x)
 {
     x /= 5; // looks closer to heartbeat between x = 0 and 0.2
     if(HEART_RATE_MON_LOG)
-        emit pushTextToDisplay(QString::number((std::sin(x * 3.14 * 2 + 5))/3 + 0.5) + " ");
-    return (std::sin(x * 3.14 * 20 + 5))/3 + 0.5;
+        emit pushTextToDisplay(QString::number((1.0/5.0) * sin(30 * x) + 0.6 + (1.0/15.0) * sin(1.1 * x)) + " ");
+    return (1.0/5.0) * sin(30 * x) + 0.6 + (1.0/15.0) * sin(1.1 * x);
 }
 
 
 // runs every beat
 void HeartRateMonitor::heartBeat()
 {
-    if(rhythm != VT)
+    if(rhythm == PEA)
         heartBeatOccurring = 1; // set to 1 to start the heart beat
     redColorShift = 255;
 
@@ -199,6 +218,7 @@ void HeartRateMonitor::updateHeartRate(int newHeartRateBPM)
 
     // emit pushTextToDisplay(QString("New BPM: %1").arg(newRandomBpm));
 
-    heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
+    if(rhythm == PEA)
+        heartRateTimer->start(1000/(newRandomBpm/60.0)*HEART_RATE_SCALE);
 
 }
