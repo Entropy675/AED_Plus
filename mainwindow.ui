@@ -104,6 +104,17 @@
        <height>23</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>9</pointsize>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 700 italic 9pt &quot;Segoe UI&quot;;</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">

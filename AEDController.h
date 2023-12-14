@@ -34,7 +34,6 @@ public slots:
     void updateAEDRingState();
 
 private slots:
-    void resetHeartbeat();
     void heartRhythmChanged(int index);
     void AEDAttachedStartAnalyzing();
 

@@ -110,29 +110,24 @@ void AEDController::AEDAttachedStartAnalyzing()
 
 void AEDController::electrocutePressed()
 {
-    if(aedRing->getState() != AEDRing::Shock) {
-        appendToDisplay("Shockable rhythm not yet detected, still analyzing. Please move to next state!");
-        return;
-    }
-    else {
+    // heart rhythms that allow for a shock
+    if (ui.heartRhythmSelector->currentText() == "Ventricular Tachycardia" || ui.heartRhythmSelector->currentText() == "Ventricular Fibrillation") {
         appendToDisplay("Electricution delivered!");
-        qDebug("Shock is delivered to the patient!!!!");
         hMonitor->updateHeartRate(300);
-        restartHeartbeat->start(1200);
     }
+
 }
 
-
-void AEDController::resetHeartbeat()
-{
-
-    qDebug("Shock is delivered to the patient!!!!");
-}
 
 void AEDController::updateAEDRingState()
 {
 
     // reflect image of next step and then output it, logic will be implemented here as well, to see if they can move to the next step
+    if (aedRing->getState()== AEDRing::ElectrodePlacement) {
+        if (!aedPlacementDemo->AEDIsConnected()){
+            return;
+        }
+    }
     aedRing->setState(static_cast<AEDRing::AEDState>((aedRing->getState() + 1) % 7));
 
     aedRing->updateImage(aedRing->getState());
