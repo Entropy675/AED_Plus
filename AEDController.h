@@ -48,10 +48,13 @@ private:
     AEDRing* aedRing;
 
     Battery* battery;
-    bool isPowerDown;
+    bool isPowerOn;
     void batterydead();
     void enableAllComponents();
     void disableAllComponents();
+
+    void turnPowerButtonOn();
+    void turnPowerButtonOff();
 
     QPushButton* powerButton;
 

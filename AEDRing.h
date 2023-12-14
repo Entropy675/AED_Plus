@@ -28,13 +28,13 @@ public:
     AEDRing(QGroupBox* window = nullptr);
     ~AEDRing();
 
+    void setState(AEDState);
+    AEDState getState();
+
     void disable();
     void enable();;
+
     void updateImage(AEDState);
-    AEDState getState();
-    void setState(AEDState);
-
-
 
 private slots:
 void updateButtonClicked();
@@ -50,6 +50,7 @@ private:
     QLabel* aedImage;
     QPixmap aedStateImages[7];
     QPushButton *updateButton;
+
 
 };
 

@@ -35,6 +35,8 @@ public:
     void stopFlashingAnimation();
     void startFlashingAnimation();
 
+    void AEDReadyToBeAttached();
+
 signals:
     void pushTextToDisplay(QString s);
     void AEDAttachedToPatient();
@@ -59,6 +61,7 @@ private:
     bool flip = false;
     bool flashAnimation = true;
     bool power = false;
+
 
     void startButtonPlacement();
     void leftRightButtonsPlacement();

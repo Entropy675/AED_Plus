@@ -64,6 +64,10 @@ void AEDPlacement::placePadLeft()
     nextState = PadBoth;
 }
 
+void AEDPlacement::AEDReadyToBeAttached() {
+    buttonMid->setEnabled(true);
+}
+
 void AEDPlacement::startButtonPlacement()
 {
     buttonMid = new QPushButton("Attach AED to Patient");
@@ -75,8 +79,9 @@ void AEDPlacement::startButtonPlacement()
 void AEDPlacement::powerOn()
 {
     power = true;
-    if(buttonMid)
-        buttonMid->setDisabled(false);
+    // attach button does not turn on right away till it is ready to be attached
+   // if(buttonMid)
+       // buttonMid->setDisabled(false);
 }
 
 void AEDPlacement::powerOff()
@@ -156,6 +161,8 @@ void AEDPlacement::placePadRight()
     currentState = nextState;
     // now both states should be PadBoth, meaning the patient is padded.
     buttonMid = new QPushButton("Shock Patient!");
+    // shock should not be adminstered till in the right state
+    buttonMid->setDisabled(true);
     connect(buttonMid, &QPushButton::clicked, this, &AEDPlacement::electrocutePressed);
     HButtonBox->addWidget(buttonMid);
 }
