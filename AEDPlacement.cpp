@@ -1,5 +1,6 @@
 #include "AEDPlacement.h"
 #include "defs.h"
+#include <QDebug>
 
 
 AEDPlacement::AEDPlacement(QGroupBox* g)
@@ -24,43 +25,28 @@ AEDPlacement::AEDPlacement(QGroupBox* g)
     HButtonBox = new QHBoxLayout();
     patientBodyLayout->addLayout(HButtonBox);
 
-    buttonMid = new QPushButton("Attach AED to Patient");
-    connect(buttonMid, &QPushButton::clicked, this, &AEDPlacement::attachedToPatient);
-    HButtonBox->addWidget(buttonMid);
-
+    startButtonPlacement();
     g->setLayout(patientBodyLayout);
 
     flashTimer = new QTimer(this);
     connect(flashTimer, &QTimer::timeout, this, &AEDPlacement::loopAnimationTillButtonPress);
     flashTimer->start(AED_DEMO_LOOP_RATE_MS);
+    power = false;
 }
 
-
-
-void AEDPlacement::stopFlashingAnimation()
-{
-    flashAnimation = false;
-}
-
-void AEDPlacement::startFlashingAnimation()
-{
-    flashAnimation = true;
-}
 
 void AEDPlacement::loopAnimationTillButtonPress()
 {
     // flash the current image between currentState and nextState
     // after some callback signal confirms the state change, stop and switch state
-    if(flashAnimation)
-    {
-        if(flip)
-            aedImage->setPixmap(aedPadsImages[currentState]);
-        else
-            aedImage->setPixmap(aedPadsImages[nextState]);
-        flip = !flip;
-    }
-    else
+    if(!power)
+        return;
+
+    if(flip)
         aedImage->setPixmap(aedPadsImages[currentState]);
+    else
+        aedImage->setPixmap(aedPadsImages[nextState]);
+    flip = !flip;
 }
 
 void AEDPlacement::placePadLeft()
@@ -69,13 +55,68 @@ void AEDPlacement::placePadLeft()
     if(currentState != NoPads && nextState != PadLeft)
         return;
 
+    disconnect(buttonLeft, &QPushButton::clicked, this, &AEDPlacement::placePadLeft); //(causes crashes TODO: figure this out)
     HButtonBox->removeWidget(buttonLeft);
-    disconnect(buttonLeft, &QPushButton::clicked, this, &AEDPlacement::placePadLeft);
     delete buttonLeft;
 
 
     currentState = nextState;
     nextState = PadBoth;
+}
+
+void AEDPlacement::startButtonPlacement()
+{
+    buttonMid = new QPushButton("Attach AED to Patient");
+    buttonMid->setEnabled(false);
+    HButtonBox->addWidget(buttonMid);
+    connect(buttonMid, &QPushButton::clicked, this, &AEDPlacement::attachedToPatient);
+}
+
+void AEDPlacement::powerOn()
+{
+    power = true;
+    if(buttonMid)
+        buttonMid->setDisabled(false);
+}
+
+void AEDPlacement::powerOff()
+{
+    power = false;
+    removeAllButtons();
+    startButtonPlacement();
+    currentState = AEDPlacementState::NoPatient;
+    nextState = AEDPlacementState::NoPads;
+
+    if(buttonMid)
+        buttonMid->setDisabled(true);
+    // reests back to start
+}
+
+void AEDPlacement::removeAllButtons()
+{
+    if(buttonLeft)
+    {
+        HButtonBox->removeWidget(buttonLeft);
+        disconnect(buttonLeft, &QPushButton::clicked, this, &AEDPlacement::placePadLeft);
+        delete buttonLeft;
+    }
+    if(buttonRight)
+    {
+        HButtonBox->removeWidget(buttonRight);
+        disconnect(buttonRight, &QPushButton::clicked, this, &AEDPlacement::placePadRight);
+        delete buttonRight;
+    }
+    if(buttonMid)
+    {
+        HButtonBox->removeWidget(buttonMid);
+        disconnect(buttonMid, &QPushButton::clicked, this, &AEDPlacement::attachedToPatient);
+        delete buttonMid;
+    }
+}
+
+bool AEDPlacement::isOn()
+{
+    return power;
 }
 
 void AEDPlacement::attachedToPatient()
@@ -84,6 +125,15 @@ void AEDPlacement::attachedToPatient()
     disconnect(buttonMid, &QPushButton::clicked, this, &AEDPlacement::attachedToPatient);
     delete buttonMid;
 
+    leftRightButtonsPlacement();
+
+    currentState = nextState;
+    nextState = PadLeft;
+    emit AEDAttachedToPatient();
+}
+
+void AEDPlacement::leftRightButtonsPlacement()
+{
     buttonLeft = new QPushButton("Place Pad Left");
     buttonRight = new QPushButton("Place Pad Right");
     connect(buttonLeft, &QPushButton::clicked, this, &AEDPlacement::placePadLeft);
@@ -91,9 +141,6 @@ void AEDPlacement::attachedToPatient()
     HButtonBox->addWidget(buttonLeft);
     HButtonBox->addWidget(buttonRight);
 
-    currentState = nextState;
-    nextState = PadLeft;
-    emit AEDAttachedToPatient();
 }
 
 void AEDPlacement::placePadRight()

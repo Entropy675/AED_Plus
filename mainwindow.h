@@ -22,8 +22,14 @@ signals:
 protected:
     void resizeEvent(QResizeEvent* event) override;
 
+
+private slots:
+    void on_powerButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     AEDController* aed;
+
+    void setGUILayout();
 };
 #endif // MAINWINDOW_H
