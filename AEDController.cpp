@@ -1,5 +1,4 @@
 #include "AEDController.h"
-
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <QLabel>
@@ -12,11 +11,6 @@ AEDController::AEDController(Ui::MainWindow& u)
     connect(hMonitor, &HeartRateMonitor::pushTextToDisplay, this, &AEDController::appendToDisplay);
     connect(u.heartRhythmSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AEDController::heartRhythmChanged);
     u.HeartRateView->setScene(hMonitor);
-
-
-    //updateTimer = new QTimer(this);
-    //connect(updateTimer, &QTimer::timeout, this, &AEDController::update); ????? why use update
-    //updateTimer->start(PING_RATE_MS);
 
     outputText = new OutputTextbox(ui.outputTextGroupBox);
 
@@ -49,6 +43,16 @@ AEDController::AEDController(Ui::MainWindow& u)
     aedRing = new AEDRing(ui.AEDRingView);
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
 
+    cprBar = new AEDCompressionBar(ui.cprBox);
+    connect(ui.cprButton, &QPushButton::clicked, this, &AEDController::updateCPRButtonClicked);
+    ui.cprButton->setEnabled(false);
+
+    // timer for cpr compressions
+    cprTimer = new QTimer(this);
+    connect(cprTimer, SIGNAL(timeout()), this, SLOT(updateCPRTimer()));
+    cprTimerInterval = 3000;
+    cprTimeRemaining = cprTimerInterval;
+
     battery = new Battery(u.BatteryView);
     connect(battery, &Battery::batteryLevelChanged, this, &AEDController::batterydead);
     connect(ui.powerButton, &QPushButton::clicked, this, &AEDController::power);
@@ -60,6 +64,8 @@ AEDController::~AEDController()
     delete hMonitor;
     delete outputText;
     delete aedPlacementDemo;
+    delete aedRing;
+    delete battery;
 }
 
 void AEDController::heartRhythmChanged(int index)
@@ -112,8 +118,11 @@ void AEDController::electrocutePressed()
 {
     // heart rhythms that allow for a shock
     if (ui.heartRhythmSelector->currentText() == "Ventricular Tachycardia" || ui.heartRhythmSelector->currentText() == "Ventricular Fibrillation") {
-        appendToDisplay("Electricution delivered!");
+        appendToDisplay("Electricution delivered, stand clear!");
         hMonitor->updateHeartRate(300);
+    }
+    else {
+         appendToDisplay("That is not a shockable rythym!");
     }
 
 }
@@ -149,21 +158,54 @@ void AEDController::updateAEDRingState()
 
     case AEDRing::Breathing:
         appendToDisplay("The current state of the AED is: Breathing");
+        appendToDisplay("Please provide support for the patients back to leave a clear airway!");
         break;
 
     case AEDRing::ElectrodePlacement:
         aedPlacementDemo->AEDReadyToBeAttached();
         appendToDisplay("The current state of the AED is: Electrode Placement");
+        appendToDisplay("Please place electrode pads on patients body before moving to the analyzation step");
         break;
 
     case AEDRing::Shock:
-        aedPlacementDemo->AEDReadyToBeAttached();
+        aedPlacementDemo->ShockButtonReady();
           appendToDisplay("The current state of the AED is: Shock");
+          appendToDisplay("Press the shock button if the detectable heart ryhthm is either Ventricular Fibrillation or Ventricular Tachycardia");
         break;
 
     case AEDRing::PostShockCare:
+       ui.cprButton->setEnabled(true);
+       aedPlacementDemo->ShockButtonDisabled();
+       ui.heartRhythmSelector->setDisabled(true);
        appendToDisplay("The current state of the AED is: Post Shock Care");
+       appendToDisplay("Please tend to the patient by providing chest compressions");
         break;
+    }
+}
+
+void AEDController::updateCPRButtonClicked() {
+    if (cprTimeRemaining == cprTimerInterval) {
+        qDebug() << "Button pressed!";
+        if (cprIndex > 8) {
+            appendToDisplay("Reseting compressions");
+            cprIndex = 0;
+        }
+        else {
+            appendToDisplay("Giving Compression!");
+        }
+        cprBar->updateImage(cprIndex++);
+        cprTimer->start(1000);
+    }
+}
+
+void AEDController::updateCPRTimer() {
+    cprTimeRemaining -= 1000;  // Decrease the remaining time by 1 second
+    if (cprTimeRemaining > 0) {
+        appendToDisplay(QString("There is %1 seconds before you can give a compression").arg(cprTimeRemaining / 1000));
+    } else {
+        cprTimer->stop();
+        cprTimeRemaining = cprTimerInterval;
+        appendToDisplay("Please give the next compression!");
     }
 }
 
@@ -191,6 +233,7 @@ void AEDController::disableAllComponents()
     outputText->setText("");
     battery->stop();
     aedRing->disable();
+    ui.cprButton->setEnabled(false);
 }
 void AEDController::power()
 {

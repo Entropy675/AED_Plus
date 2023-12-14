@@ -49,7 +49,7 @@ void MainWindow::setGUILayout() {
     verticalLayout->addStretch();
 
     horizontalLayout->addSpacerItem(new QSpacerItem(320, 0, QSizePolicy::Fixed, QSizePolicy::Minimum));
-    verticalLayout->addSpacerItem(new QSpacerItem(0, 90, QSizePolicy::Fixed, QSizePolicy::Minimum));
+    verticalLayout->addSpacerItem(new QSpacerItem(0, 210, QSizePolicy::Fixed, QSizePolicy::Minimum));
 
     ui->centralwidget->setLayout(verticalLayout);
 
@@ -62,6 +62,12 @@ void MainWindow::setGUILayout() {
 
 
 void MainWindow::on_powerButton_clicked()
+{
+
+}
+
+
+void MainWindow::on_cprButton_clicked()
 {
 
 }

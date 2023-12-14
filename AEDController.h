@@ -10,7 +10,7 @@
 #include "OutputTextbox.h"
 #include "AEDPlacement.h"
 #include "AEDRing.h"
-
+#include "AEDCompressionBar.h"
 class AEDController : public QObject
 {
     Q_OBJECT
@@ -22,6 +22,7 @@ public:
     void powerOn();
     void powerOff();
 
+
 public slots:
     // add slots that recieve signals here
     void appendToDisplay(QString);
@@ -32,7 +33,8 @@ public slots:
     void handleScreenResized(int w, int h);
 
     void updateAEDRingState();
-
+    void updateCPRButtonClicked();
+    void updateCPRTimer();
 private slots:
     void heartRhythmChanged(int index);
     void AEDAttachedStartAnalyzing();
@@ -46,6 +48,8 @@ private:
 
     AEDRing* aedRing;
 
+    AEDCompressionBar *cprBar;
+
     Battery* battery;
     bool isPowerOn;
     void batterydead();
@@ -55,12 +59,16 @@ private:
     void turnPowerButtonOn();
     void turnPowerButtonOff();
 
-    QPushButton* powerButton;
-
     QPixmap powerButtonImageOn;
     QPixmap powerButtonImageOff;
 
     QTimer* restartHeartbeat;
+
+    QTimer *cprTimer;
+    int cprTimerInterval;
+    int cprTimeRemaining;
+
+    int cprIndex = 1;
 };
 
 #endif

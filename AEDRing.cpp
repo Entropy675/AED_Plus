@@ -11,7 +11,7 @@ AEDRing::AEDRing(QGroupBox *view) : window(view)
     aedImage->setScaledContents(true);
     originalState = new QVBoxLayout(window);
     originalState->addWidget(aedImage);
-    updateButton = new QPushButton("Go To Next State", this);
+    updateButton = new QPushButton("Go to Next State", this);
     connect(updateButton, &QPushButton::clicked, this, &AEDRing::updateButtonClicked);
     originalState->addWidget(updateButton);
 

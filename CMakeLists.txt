@@ -40,6 +40,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         AEDRing.cpp
         AEDCompressionBar.h
         AEDCompressionBar.cpp
+        AEDCPR.qrc
 
 
 

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/AEDCPR0.png</file>
+        <file>assets/AEDCPR1.png</file>
+        <file>assets/AEDCPR2.png</file>
+        <file>assets/AEDCPR3.png</file>
+        <file>assets/AEDCPR4.png</file>
+        <file>assets/AEDCPR5.png</file>
+        <file>assets/AEDCPR6.png</file>
+        <file>assets/AEDCPR7.png</file>
+        <file>assets/AEDCPR8.png</file>
+    </qresource>
+</RCC>

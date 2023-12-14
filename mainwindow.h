@@ -26,6 +26,8 @@ protected:
 private slots:
     void on_powerButton_clicked();
 
+    void on_cprButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     AEDController* aed;
