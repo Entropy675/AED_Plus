@@ -14,12 +14,14 @@ SOURCES += \
     Battery.cpp \
     HeartRateMonitor.cpp \
     OutputTextbox.cpp \
+    aedring.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     AEDController.h \
     AEDPlacement.h \
+    AEDRing.h \
     Battery.h \
     HeartRateMonitor.h \
     OutputTextbox.h \
@@ -35,4 +37,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    AED-states.qrc \
     placement-aed-pads.qrc

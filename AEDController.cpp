@@ -1,7 +1,9 @@
 #include "AEDController.h"
+
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <QLabel>
+#include <QDateTime>
 AEDController::AEDController(Ui::MainWindow& u)
     : ui(u), isPowerDown(true)
 {
@@ -94,7 +96,10 @@ void AEDController::handleScreenResized(int w, int h)
 
 void AEDController::appendToDisplay(QString s)
 {
-    outputText->append(s);
+    QString timestamp = QDateTime::currentDateTime().toString("hh:mm:ss AP");
+    QString messageWithTimestamp = timestamp + " - " + s;
+    outputText->append(messageWithTimestamp);
+    // outputText->append(s);
 }
 
 void AEDController::AEDAttachedStartAnalyzing()

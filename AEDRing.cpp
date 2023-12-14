@@ -49,4 +49,3 @@ void AEDRing::disable() {
 void AEDRing::enable() {
     updateButton->setDisabled(false);
 }
-
