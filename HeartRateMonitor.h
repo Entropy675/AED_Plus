@@ -48,7 +48,7 @@ private:
     int redColorShift = 255;
     int vWidth, vHeight; // views width and height
     double heartBeatOccurring = 0;
-    int bpm = 0;
+    int bpm = START_HEART_RATE;
     int bpmVariation = HEART_BPM_VARIATION; // increase this by a lot dynamically to simulate arrhythmia
     bool power = false;
 
