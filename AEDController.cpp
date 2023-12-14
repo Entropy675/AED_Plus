@@ -41,11 +41,12 @@ AEDController::AEDController(Ui::MainWindow& u)
     QPixmap powerButtonImage(":/assets/powerButton.jpg");
     ui.powerButton->setIcon(powerButtonImage);
     ui.powerButton->setIconSize(QSize(30, 30));
-    //=======
-    //powerButtonImageOn.load(":/assets/powerButtonOn.png");
-    //powerButtonImageOff.load(":/assets/powerButtonOff.png");
-    //ui.powerButton->setIcon(powerButtonImageOff);
-    //>>>>>>> dev
+
+    powerButtonImageOn.load(":/assets/powerButtonOn.png");
+    powerButtonImageOff.load(":/assets/powerButtonOff.png");
+
+    ui.powerButton->setIcon(powerButtonImageOff);
+
 
     aedRing = new AEDRing(ui.AEDRingView);
     connect(aedRing, &AEDRing::updateAEDState, this, &AEDController::updateAEDRingState);
@@ -141,6 +142,7 @@ void AEDController::updateAEDRingState()
     switch (aedRing->getState())
     {
     case AEDRing::Default:
+        power();
         appendToDisplay("The current state of the AED is: Default");
         break;
         
@@ -173,22 +175,21 @@ void AEDController::updateAEDRingState()
 
 void AEDController::enableAllComponents()
 {
-    ui.HeartRateView->setVisible(true);
+    aedPlacementDemo->powerOn();
+    hMonitor->powerOn();
     ui.BatteryView->setVisible(true);
-    ui.centralwidget->setVisible(true);
-    ui.patientBodyBox->setVisible(true);
-    ui.outputTextGroupBox->setVisible(true);
     aedRing->enable();
-
+    battery->start();
 }
+
+
 
 void AEDController::disableAllComponents()
 {
-    ui.HeartRateView->setVisible(false);
-    ui.BatteryView->setVisible(false);
-    ui.patientBodyBox->setVisible(false);
-    ui.powerButton->setVisible(true);
-    ui.outputTextGroupBox->setVisible(false);
+    aedPlacementDemo->powerOff();
+    hMonitor->powerOff();
+    outputText->setText("");
+    battery->stop();
     aedRing->disable();
 }
 void AEDController::power()

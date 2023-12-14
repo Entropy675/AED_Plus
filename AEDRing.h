@@ -29,7 +29,7 @@ public:
     ~AEDRing();
 
     void disable();
-    void enable();
+    void enable();;
     void updateImage(AEDState);
     AEDState getState();
     void setState(AEDState);
@@ -50,7 +50,6 @@ private:
     QLabel* aedImage;
     QPixmap aedStateImages[7];
     QPushButton *updateButton;
-
 
 };
 

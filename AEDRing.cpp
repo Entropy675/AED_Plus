@@ -1,6 +1,6 @@
 #include "AEDRing.h"
 
-AEDRing::AEDRing(QGroupBox *view) : window(view), currState(Default)
+AEDRing::AEDRing(QGroupBox *view) : window(view), currState(AnalyzingResponsiveness)
 {
     for (int i = 0; i < 7; ++i) {
         QString imagePath = QString(":/assets/AED_RING_STATE%1.png").arg(i);
@@ -49,3 +49,4 @@ void AEDRing::disable() {
 void AEDRing::enable() {
     updateButton->setDisabled(false);
 }
+
