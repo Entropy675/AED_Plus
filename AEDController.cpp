@@ -1,4 +1,5 @@
 #include "AEDController.h"
+
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <QLabel>
