@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    AEDCompressionBar.cpp \
     AEDController.cpp \
     AEDPlacement.cpp \
     Battery.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    AEDCompressionBar.h \
     AEDController.h \
     AEDPlacement.h \
     AEDRing.h \
@@ -38,4 +40,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     AED-states.qrc \
+    AEDCPR.qrc \
     placement-aed-pads.qrc

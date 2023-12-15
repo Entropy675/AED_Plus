@@ -225,7 +225,8 @@ void AEDController::enableAllComponents()
 
 void AEDController::disableAllComponents()
 
-{   appendToDisplay("Power Off");
+{
+    appendToDisplay("Power Off");
     turnPowerButtonOff();
     aedPlacementDemo->powerOff();
     hMonitor->powerOff();
@@ -234,6 +235,7 @@ void AEDController::disableAllComponents()
     battery->stop();
     aedRing->disable();
     ui.cprButton->setEnabled(false);
+
 }
 void AEDController::power()
 {
