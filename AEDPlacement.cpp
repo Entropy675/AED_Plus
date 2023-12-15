@@ -176,7 +176,6 @@ void AEDPlacement::placePadRight()
 
     HButtonBox->insertWidget(index,buttonShock);
 
-    shockHappened = true;
 
 }
 

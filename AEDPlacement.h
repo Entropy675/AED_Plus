@@ -70,9 +70,6 @@ private:
     bool power = false;
     bool padsAreAttached = false;
 
-    bool shockHappened = false;
-
-
     void startButtonPlacement();
     void leftRightButtonsPlacement();
 
