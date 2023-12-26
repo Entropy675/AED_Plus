@@ -3,7 +3,7 @@
 
 #include <QWidget> // Include any necessary headers
 #include <QPushButton>
-#include <Qlabel>
+#include <QLabel>
 #include <QVBoxLayout>
 #include <QGroupBox>
 
