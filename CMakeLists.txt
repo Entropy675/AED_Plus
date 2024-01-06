@@ -41,6 +41,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         AEDCompressionBar.h
         AEDCompressionBar.cpp
         AEDCPR.qrc
+        CMakeLists.txt.user
 
 
 

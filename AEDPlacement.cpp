@@ -88,7 +88,9 @@ void AEDPlacement::startButtonPlacement()
 void AEDPlacement::powerOn()
 {
     power = true;
-    startButtonPlacement();
+    HButtonBox = new QHBoxLayout();
+    patientBodyLayout->addLayout(HButtonBox);
+    startButtonPlacement();;
     // attach button does not turn on right away till it is ready to be attached
    // if(buttonMid)
        // buttonMid->setDisabled(false);
@@ -97,9 +99,16 @@ void AEDPlacement::powerOn()
 void AEDPlacement::powerOff()
 {
     power = false;
-
-    HButtonBox->removeWidget(shockContainer);
-    delete(buttonShock);
+    // remove all widgets so that we can reset the process when it turns on
+    QLayoutItem *widgetToRemoveFromAEDPlacementBox;
+    while ((widgetToRemoveFromAEDPlacementBox = HButtonBox->takeAt(0)) != nullptr) {
+        QWidget *widget = widgetToRemoveFromAEDPlacementBox->widget();
+        if (widget) {
+            widget->setParent(nullptr);
+            delete widget;
+        }
+        delete widgetToRemoveFromAEDPlacementBox;
+    }
     loopAnimationTillButtonPress();
     currentState = AEDPlacementState::NoPatient;
     nextState = AEDPlacementState::NoPads;
@@ -166,6 +175,7 @@ void AEDPlacement::placePadRight()
     buttonShock->setEnabled(false);
 
     HButtonBox->insertWidget(index,buttonShock);
+
 
 }
 

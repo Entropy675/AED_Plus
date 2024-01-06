@@ -70,7 +70,6 @@ private:
     bool power = false;
     bool padsAreAttached = false;
 
-
     void startButtonPlacement();
     void leftRightButtonsPlacement();
 
